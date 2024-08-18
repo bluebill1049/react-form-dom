@@ -816,7 +816,6 @@ export type Control<
   ) => Promise<{ errors: FieldErrors }>;
   register: UseFormRegister<TFieldValues>;
   handleSubmit: UseFormHandleSubmit<TFieldValues>;
-  _disableForm: (disabled?: boolean) => void;
   unregister: UseFormUnregister<TFieldValues>;
   getFieldState: UseFormGetFieldState<TFieldValues>;
   setError: UseFormSetError<TFieldValues>;

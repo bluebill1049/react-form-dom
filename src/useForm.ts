@@ -102,7 +102,7 @@ export function useForm<
   });
 
   React.useEffect(
-    () => control._disableForm(props.disabled),
+    () => control._subjects.state.next({ disabled: props.disabled }),
     [control, props.disabled],
   );
 

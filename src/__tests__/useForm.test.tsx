@@ -2289,6 +2289,34 @@ describe('useForm', () => {
     });
   });
 
+  it('should disable inputs that get added after-the-fact', () => {
+    function App() {
+      const { register } = useForm({ disabled: true });
+      const [shown, setShown] = React.useState(false);
+      return (
+        <form>
+          {shown && (
+            <>
+              <input {...register('firstName')} placeholder="firstName" />
+              <input
+                {...register('lastName', { disabled: false })}
+                placeholder="lastName"
+              />
+            </>
+          )}
+          <button type="button" onClick={() => setShown(true)}>
+            Show inputs
+          </button>
+        </form>
+      );
+    }
+
+    render(<App />);
+    fireEvent.click(screen.getByRole('button'));
+    expect(screen.getByPlaceholderText('firstName')).toBeDisabled();
+    expect(screen.getByPlaceholderText('lastName')).not.toBeDisabled();
+  });
+
   it('should disable the entire form', () => {
     const App = () => {
       const [disabled, setDisabled] = useState(false);
