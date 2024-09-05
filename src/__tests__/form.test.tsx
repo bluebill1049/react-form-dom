@@ -91,10 +91,8 @@ describe('Form', () => {
         <Form
           encType={'application/json'}
           action={'/success'}
-          onSubmit={({ data, formData, formDataJson }) => {
+          onSubmit={({ data }) => {
             data;
-            formData;
-            formDataJson;
             onSubmit();
           }}
           control={control}

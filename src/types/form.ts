@@ -74,8 +74,6 @@ export type SubmitHandler<TFieldValues extends FieldValues> = (
 export type FormSubmitHandler<TFieldValues extends FieldValues> = (payload: {
   data: TFieldValues;
   event?: React.BaseSyntheticEvent;
-  formData: FormData;
-  formDataJson: string;
   method?: 'post' | 'put' | 'delete';
 }) => unknown | Promise<unknown>;
 

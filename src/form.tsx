@@ -1,5 +1,6 @@
 import React from 'react';
 
+import getRequestBody from './logic/getRequestBody';
 import get from './utils/get';
 import { FieldValues, FormProps } from './types';
 import { useFormContext } from './useFormContext';
@@ -54,41 +55,30 @@ function Form<
     let type = '';
 
     await control.handleSubmit(async (data) => {
-      const formData = new FormData();
-      let formDataJson = '';
-
-      try {
-        formDataJson = JSON.stringify(data);
-      } catch {}
-
-      for (const name of control._names.mount) {
-        formData.append(name, get(data, name));
-      }
-
       if (onSubmit) {
         await onSubmit({
           data,
           event,
           method,
-          formData,
-          formDataJson,
         });
       }
 
       if (action) {
         try {
-          const shouldStringifySubmissionData = [
-            headers && headers['Content-Type'],
-            encType,
-          ].some((value) => value && value.includes('json'));
+          const mountData: FieldValues = {};
+          for (const name of control._names.mount) {
+            mountData[name] = get(data, name);
+          }
+
+          const contentType = (headers && headers['Content-Type']) || encType;
 
           const response = await fetch(action, {
             method,
             headers: {
               ...headers,
-              ...(encType ? { 'Content-Type': encType } : {}),
+              ...(contentType ? { 'Content-Type': contentType } : {}),
             },
-            body: shouldStringifySubmissionData ? formDataJson : formData,
+            body: getRequestBody(contentType, mountData),
           });
 
           if (
