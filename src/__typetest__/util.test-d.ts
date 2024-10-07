@@ -1,6 +1,6 @@
 import { expectAssignable, expectType } from 'tsd';
 
-import { DeepPartial, ExtractObjects, IsAny, IsNever } from '../types';
+import { DeepPartial, ExtractObjects, IsAny, IsNever, Opaque } from '../types';
 
 import { _ } from './__fixtures__';
 
@@ -87,6 +87,16 @@ import { _ } from './__fixtures__';
       x?: string;
       y?: { a?: string; b?: number };
     }>(actual);
+  }
+
+  /** it should not make opaque internals optional */ {
+    type Foo = Opaque<{
+      foo: 'bar';
+    }>;
+    const actual = _ as DeepPartial<{
+      foo: Foo;
+    }>;
+    expectType<{ foo?: Foo }>(actual);
   }
 
   /** it should be assignable for types containing unknown */ {

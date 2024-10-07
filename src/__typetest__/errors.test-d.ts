@@ -1,6 +1,6 @@
 import { expectType } from 'tsd';
 
-import { FieldError, FieldErrors, GlobalError, Merge } from '../types';
+import { FieldError, FieldErrors, GlobalError, Merge, Opaque } from '../types';
 
 import { _ } from './__fixtures__';
 
@@ -59,8 +59,12 @@ import { _ } from './__fixtures__';
     >(actual);
   }
 
-  /** it should not treat Date, File, FileList or Blob as record fields */
+  /** it should not treat Date, File, FileList, Blob or Opaque as record fields */
   {
+    type Foo = Opaque<{
+      foo: 'bar';
+    }>;
+
     const actual = _ as FieldErrors<{
       date: Date;
       file: File;
@@ -70,6 +74,7 @@ import { _ } from './__fixtures__';
         file: File;
         fileList: FileList;
       };
+      opaque: Foo;
     }>;
     expectType<FieldError | undefined>(actual.date);
     expectType<FieldError | undefined>(actual.file);
@@ -77,5 +82,6 @@ import { _ } from './__fixtures__';
     expectType<FieldError | undefined>(actual.record?.date);
     expectType<FieldError | undefined>(actual.record?.file);
     expectType<FieldError | undefined>(actual.record?.fileList);
+    expectType<FieldError | undefined>(actual.opaque);
   }
 }
