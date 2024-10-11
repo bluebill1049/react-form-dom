@@ -51,6 +51,7 @@ import get from '../utils/get';
 import isBoolean from '../utils/isBoolean';
 import isCheckBoxInput from '../utils/isCheckBoxInput';
 import isDateObject from '../utils/isDateObject';
+import isEmptyArray from '../utils/isEmptyArray';
 import isEmptyObject from '../utils/isEmptyObject';
 import isFileInput from '../utils/isFileInput';
 import isFunction from '../utils/isFunction';
@@ -648,8 +649,11 @@ export function createFormControl<
       const fieldName = `${name}.${fieldKey}`;
       const field = get(_fields, fieldName);
 
+      const isEmptyNonPrimitive =
+        isEmptyObject(fieldValue) || isEmptyArray(fieldValue);
+
       (_names.array.has(name) ||
-        !isPrimitive(fieldValue) ||
+        (!isPrimitive(fieldValue) && !isEmptyNonPrimitive) ||
         (field && !field._f)) &&
       !isDateObject(fieldValue)
         ? setValues(fieldName, fieldValue, options)

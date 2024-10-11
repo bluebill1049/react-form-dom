@@ -1392,4 +1392,54 @@ describe('setValue', () => {
     expect(screen.getByText('dirty')).toBeVisible();
     expect(screen.getByText('touched')).toBeVisible();
   });
+
+  it('should be able to set to empty array value', () => {
+    const App = () => {
+      const { register, setValue } = useForm({
+        values: {
+          item1: {
+            positions: [{ activities: ['Value1', 'Value2'] }],
+          },
+          item2: {
+            positions: [{ activities: ['Value1', 'Value2'] }],
+          },
+        },
+      });
+
+      return (
+        <form>
+          <input
+            {...register('item1.positions.0.activities')}
+            data-testid={'a'}
+          />
+          <input
+            {...register('item2.positions.0.activities')}
+            data-testid={'b'}
+          />
+
+          <button
+            type="button"
+            onClick={() => {
+              setValue('item1.positions', [{ activities: [] }], {
+                shouldValidate: true,
+              });
+
+              setValue('item2.positions.0.activities', [], {
+                shouldValidate: true,
+              });
+            }}
+          >
+            Reset
+          </button>
+        </form>
+      );
+    };
+
+    render(<App />);
+
+    fireEvent.click(screen.getByRole('button'));
+
+    expect((screen.getByTestId('a') as HTMLInputElement).value).toEqual('');
+    expect((screen.getByTestId('b') as HTMLInputElement).value).toEqual('');
+  });
 });
