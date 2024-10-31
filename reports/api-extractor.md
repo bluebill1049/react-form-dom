@@ -104,8 +104,8 @@ export type ControllerProps<TFieldValues extends FieldValues = FieldValues, TNam
 
 // @public (undocumented)
 export type ControllerRenderProps<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> = {
-    onChange: (...event: any[]) => void;
-    onBlur: Noop;
+    onChange: (...event: any[]) => Promise<void | boolean>;
+    onBlur: () => Promise<void | boolean>;
     value: FieldPathValue<TFieldValues, TName>;
     disabled?: boolean;
     name: TName;
