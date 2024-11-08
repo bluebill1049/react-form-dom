@@ -8,10 +8,14 @@ import {
 } from '../types';
 import isEmptyObject from '../utils/isEmptyObject';
 
-export default <T extends FieldValues, K extends ReadFormState>(
+export default <
+  T extends FieldValues,
+  TFieldDepth extends number,
+  K extends ReadFormState,
+>(
   formStateData: Partial<FormState<T>> & { name?: InternalFieldName },
   _proxyFormState: K,
-  updateFormState: Control<T>['_updateFormState'],
+  updateFormState: Control<T, TFieldDepth>['_updateFormState'],
   isRoot?: boolean,
 ) => {
   updateFormState(formStateData);

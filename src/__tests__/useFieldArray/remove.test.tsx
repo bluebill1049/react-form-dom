@@ -520,6 +520,7 @@ describe('remove', () => {
     }) => {
       const { fields, append, remove } = useFieldArray<
         FormValues,
+        any,
         'test.0.nested'
       >({
         name: `test.${index}.nested` as 'test.0.nested',

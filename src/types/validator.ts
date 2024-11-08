@@ -1,5 +1,6 @@
 import { INPUT_VALIDATION_RULES } from '../constants';
 
+import { DefaultDepth } from './path/eager';
 import { Message } from './errors';
 import { FieldValues } from './fields';
 import { FieldPath, FieldPathValue } from './path';
@@ -26,7 +27,11 @@ export type Validate<TFieldValue, TFormValues> = (
 
 export type RegisterOptions<
   TFieldValues extends FieldValues = FieldValues,
-  TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  TFieldDepth extends number = DefaultDepth,
+  TFieldName extends FieldPath<TFieldValues, TFieldDepth> = FieldPath<
+    TFieldValues,
+    TFieldDepth
+  >,
 > = Partial<{
   required: Message | ValidationRule<boolean>;
   min: ValidationRule<number | string>;
@@ -34,18 +39,26 @@ export type RegisterOptions<
   maxLength: ValidationRule<number>;
   minLength: ValidationRule<number>;
   validate:
-    | Validate<FieldPathValue<TFieldValues, TFieldName>, TFieldValues>
+    | Validate<
+        FieldPathValue<TFieldValues, TFieldDepth, TFieldName>,
+        TFieldValues
+      >
     | Record<
         string,
-        Validate<FieldPathValue<TFieldValues, TFieldName>, TFieldValues>
+        Validate<
+          FieldPathValue<TFieldValues, TFieldDepth, TFieldName>,
+          TFieldValues
+        >
       >;
-  value: FieldPathValue<TFieldValues, TFieldName>;
+  value: FieldPathValue<TFieldValues, TFieldDepth, TFieldName>;
   setValueAs: (value: any) => any;
   shouldUnregister?: boolean;
   onChange?: (event: any) => void;
   onBlur?: (event: any) => void;
   disabled: boolean;
-  deps: FieldPath<TFieldValues> | FieldPath<TFieldValues>[];
+  deps:
+    | FieldPath<TFieldValues, TFieldDepth>
+    | FieldPath<TFieldValues, TFieldDepth>[];
 }> &
   (
     | {

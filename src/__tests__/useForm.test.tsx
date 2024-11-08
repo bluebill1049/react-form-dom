@@ -617,7 +617,7 @@ describe('useForm', () => {
     }: {
       resolver?: any;
       mode?: 'onBlur' | 'onSubmit' | 'onChange';
-      rules?: RegisterOptions<{ test: string }, 'test'>;
+      rules?: RegisterOptions<{ test: string }, any, 'test'>;
       onSubmit?: () => void;
     }) => {
       const internationalMethods = useForm<{ test: string }>({

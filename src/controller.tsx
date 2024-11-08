@@ -1,3 +1,4 @@
+import { DefaultDepth } from './types/path/eager';
 import { ControllerProps, FieldPath, FieldValues } from './types';
 import { useController } from './useController';
 
@@ -45,9 +46,13 @@ import { useController } from './useController';
  */
 const Controller = <
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  TFieldDepth extends number = DefaultDepth,
+  TName extends FieldPath<TFieldValues, TFieldDepth> = FieldPath<
+    TFieldValues,
+    TFieldDepth
+  >,
 >(
-  props: ControllerProps<TFieldValues, TName>,
-) => props.render(useController<TFieldValues, TName>(props));
+  props: ControllerProps<TFieldValues, TFieldDepth, TName>,
+) => props.render(useController<TFieldValues, TFieldDepth, TName>(props));
 
 export { Controller };

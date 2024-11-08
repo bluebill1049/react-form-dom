@@ -3,6 +3,7 @@ import React from 'react';
 import { createFormControl } from './logic/createFormControl';
 import getProxyFormState from './logic/getProxyFormState';
 import shouldRenderFormState from './logic/shouldRenderFormState';
+import { DefaultDepth } from './types/path/eager';
 import deepEqual from './utils/deepEqual';
 import isFunction from './utils/isFunction';
 import {
@@ -47,11 +48,13 @@ export function useForm<
   TFieldValues extends FieldValues = FieldValues,
   TContext = any,
   TTransformedValues extends FieldValues | undefined = undefined,
+  TFormDepth extends number = DefaultDepth,
 >(
   props: UseFormProps<TFieldValues, TContext> = {},
-): UseFormReturn<TFieldValues, TContext, TTransformedValues> {
+): UseFormReturn<TFieldValues, TContext, TTransformedValues, TFormDepth> {
   const _formControl = React.useRef<
-    UseFormReturn<TFieldValues, TContext, TTransformedValues> | undefined
+    | UseFormReturn<TFieldValues, TContext, TTransformedValues, TFormDepth>
+    | undefined
   >();
   const _values = React.useRef<typeof props.values>();
   const [formState, updateFormState] = React.useState<FormState<TFieldValues>>({

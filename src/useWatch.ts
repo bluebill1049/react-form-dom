@@ -2,6 +2,7 @@ import React from 'react';
 
 import generateWatchOutput from './logic/generateWatchOutput';
 import shouldSubscribeByName from './logic/shouldSubscribeByName';
+import { DefaultDepth } from './types/path/eager';
 import cloneObject from './utils/cloneObject';
 import {
   Control,
@@ -39,9 +40,10 @@ import { useSubscribe } from './useSubscribe';
  */
 export function useWatch<
   TFieldValues extends FieldValues = FieldValues,
+  TFieldDepth extends number = DefaultDepth,
 >(props: {
   defaultValue?: DeepPartialSkipArrayKey<TFieldValues>;
-  control?: Control<TFieldValues>;
+  control?: Control<TFieldValues, TFieldDepth>;
   disabled?: boolean;
   exact?: boolean;
 }): DeepPartialSkipArrayKey<TFieldValues>;
@@ -67,14 +69,18 @@ export function useWatch<
  */
 export function useWatch<
   TFieldValues extends FieldValues = FieldValues,
-  TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  TFieldDepth extends number = DefaultDepth,
+  TFieldName extends FieldPath<TFieldValues, TFieldDepth> = FieldPath<
+    TFieldValues,
+    TFieldDepth
+  >,
 >(props: {
   name: TFieldName;
-  defaultValue?: FieldPathValue<TFieldValues, TFieldName>;
-  control?: Control<TFieldValues>;
+  defaultValue?: FieldPathValue<TFieldValues, TFieldDepth, TFieldName>;
+  control?: Control<TFieldValues, TFieldDepth>;
   disabled?: boolean;
   exact?: boolean;
-}): FieldPathValue<TFieldValues, TFieldName>;
+}): FieldPathValue<TFieldValues, TFieldDepth, TFieldName>;
 /**
  * Custom hook to subscribe to field change and isolate re-rendering at the component level.
  *
@@ -100,15 +106,18 @@ export function useWatch<
  */
 export function useWatch<
   TFieldValues extends FieldValues = FieldValues,
-  TFieldNames extends
-    readonly FieldPath<TFieldValues>[] = readonly FieldPath<TFieldValues>[],
+  TFieldDepth extends number = DefaultDepth,
+  TFieldNames extends readonly FieldPath<
+    TFieldValues,
+    TFieldDepth
+  >[] = readonly FieldPath<TFieldValues, TFieldDepth>[],
 >(props: {
   name: readonly [...TFieldNames];
   defaultValue?: DeepPartialSkipArrayKey<TFieldValues>;
-  control?: Control<TFieldValues>;
+  control?: Control<TFieldValues, TFieldDepth>;
   disabled?: boolean;
   exact?: boolean;
-}): FieldPathValues<TFieldValues, TFieldNames>;
+}): FieldPathValues<TFieldValues, TFieldDepth, TFieldNames>;
 /**
  * Custom hook to subscribe to field change and isolate re-rendering at the component level.
  *
@@ -141,9 +150,10 @@ export function useWatch<
  * })
  * ```
  */
-export function useWatch<TFieldValues extends FieldValues>(
-  props?: UseWatchProps<TFieldValues>,
-) {
+export function useWatch<
+  TFieldValues extends FieldValues,
+  TFieldDepth extends number,
+>(props?: UseWatchProps<TFieldValues, TFieldDepth>) {
   const methods = useFormContext();
   const {
     control = methods.control,

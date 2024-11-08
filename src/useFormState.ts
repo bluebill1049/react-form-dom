@@ -3,6 +3,7 @@ import React from 'react';
 import getProxyFormState from './logic/getProxyFormState';
 import shouldRenderFormState from './logic/shouldRenderFormState';
 import shouldSubscribeByName from './logic/shouldSubscribeByName';
+import { DefaultDepth } from './types/path/eager';
 import {
   FieldValues,
   FormState,
@@ -43,10 +44,13 @@ import { useSubscribe } from './useSubscribe';
  * }
  * ```
  */
-function useFormState<TFieldValues extends FieldValues = FieldValues>(
-  props?: UseFormStateProps<TFieldValues>,
+function useFormState<
+  TFieldValues extends FieldValues = FieldValues,
+  TFieldDepth extends number = DefaultDepth,
+>(
+  props?: UseFormStateProps<TFieldValues, TFieldDepth>,
 ): UseFormStateReturn<TFieldValues> {
-  const methods = useFormContext<TFieldValues>();
+  const methods = useFormContext<TFieldValues, any, any, TFieldDepth>();
   const { control = methods.control, disabled, name, exact } = props || {};
   const [formState, updateFormState] = React.useState(control._formState);
   const _mounted = React.useRef(true);

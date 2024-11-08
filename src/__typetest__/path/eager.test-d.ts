@@ -1,6 +1,7 @@
 import { expectType } from 'tsd';
 
 import { ArrayPath, FieldPathValues, Path, PathValue } from '../../types';
+import { DefaultDepth } from '../../types/path/eager';
 import { _, Depth3Type } from '../__fixtures__';
 
 /** {@link Path} */ {
@@ -84,17 +85,29 @@ import { _, Depth3Type } from '../__fixtures__';
 
 /** {@link PathValue} */ {
   /** it should traverse an object */ {
-    const actual = _ as PathValue<Depth3Type<number>, 'foo.foo.value'>;
+    const actual = _ as PathValue<
+      Depth3Type<number>,
+      DefaultDepth,
+      'foo.foo.value'
+    >;
     expectType<number>(actual);
   }
 
   /** it should traverse a tuple */ {
-    const actual = _ as PathValue<Depth3Type<boolean>, 'bar.0.value'>;
+    const actual = _ as PathValue<
+      Depth3Type<boolean>,
+      DefaultDepth,
+      'bar.0.value'
+    >;
     expectType<boolean>(actual);
   }
 
   /** it should traverse an array */ {
-    const actual = _ as PathValue<Depth3Type<boolean>, 'baz.42.value'>;
+    const actual = _ as PathValue<
+      Depth3Type<boolean>,
+      DefaultDepth,
+      'baz.42.value'
+    >;
     expectType<boolean>(actual);
   }
 }
@@ -103,6 +116,7 @@ import { _, Depth3Type } from '../__fixtures__';
   /** it should resolve all paths */ {
     const actual = _ as FieldPathValues<
       Depth3Type<string>,
+      DefaultDepth,
       ['foo.foo.value', 'bar.0.value', 'baz.42.value']
     >;
     expectType<[string, string, string]>(actual);

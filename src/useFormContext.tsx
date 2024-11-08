@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { DefaultDepth } from './types/path/eager';
 import { FieldValues, FormProviderProps, UseFormReturn } from './types';
 
 const HookFormContext = React.createContext<UseFormReturn | null>(null);
@@ -38,11 +39,13 @@ export const useFormContext = <
   TFieldValues extends FieldValues,
   TContext = any,
   TransformedValues extends FieldValues | undefined = undefined,
->(): UseFormReturn<TFieldValues, TContext, TransformedValues> =>
-  React.useContext(HookFormContext) as UseFormReturn<
+  TFieldDepth extends number = DefaultDepth,
+>(): UseFormReturn<TFieldValues, TContext, TransformedValues, TFieldDepth> =>
+  React.useContext(HookFormContext) as unknown as UseFormReturn<
     TFieldValues,
     TContext,
-    TransformedValues
+    TransformedValues,
+    TFieldDepth
   >;
 
 /**
@@ -79,8 +82,14 @@ export const FormProvider = <
   TFieldValues extends FieldValues,
   TContext = any,
   TTransformedValues extends FieldValues | undefined = undefined,
+  TFieldDepth extends number = DefaultDepth,
 >(
-  props: FormProviderProps<TFieldValues, TContext, TTransformedValues>,
+  props: FormProviderProps<
+    TFieldValues,
+    TContext,
+    TTransformedValues,
+    TFieldDepth
+  >,
 ) => {
   const { children, ...data } = props;
   return (

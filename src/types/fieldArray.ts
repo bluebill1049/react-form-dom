@@ -1,3 +1,4 @@
+import { DefaultDepth } from './path/eager';
 import { FieldValues } from './fields';
 import { Control } from './form';
 import { FieldArrayPath, FieldArrayPathValue } from './path';
@@ -5,19 +6,28 @@ import { RegisterOptions, Validate } from './validator';
 
 export type UseFieldArrayProps<
   TFieldValues extends FieldValues = FieldValues,
-  TFieldArrayName extends
-    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+  TFieldDepth extends number = DefaultDepth,
+  TFieldArrayName extends FieldArrayPath<
+    TFieldValues,
+    TFieldDepth
+  > = FieldArrayPath<TFieldValues, TFieldDepth>,
   TKeyName extends string = 'id',
 > = {
   name: TFieldArrayName;
   keyName?: TKeyName;
-  control?: Control<TFieldValues>;
+  control?: Control<TFieldValues, TFieldDepth>;
   rules?: {
     validate?:
-      | Validate<FieldArray<TFieldValues, TFieldArrayName>[], TFieldValues>
+      | Validate<
+          FieldArray<TFieldValues, TFieldDepth, TFieldArrayName>[],
+          TFieldValues
+        >
       | Record<
           string,
-          Validate<FieldArray<TFieldValues, TFieldArrayName>[], TFieldValues>
+          Validate<
+            FieldArray<TFieldValues, TFieldDepth, TFieldArrayName>[],
+            TFieldValues
+          >
         >;
   } & Pick<
     RegisterOptions<TFieldValues>,
@@ -31,17 +41,24 @@ export type UseFieldArrayProps<
  */
 export type FieldArrayWithId<
   TFieldValues extends FieldValues = FieldValues,
-  TFieldArrayName extends
-    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+  TFieldDepth extends number = DefaultDepth,
+  TFieldArrayName extends FieldArrayPath<
+    TFieldValues,
+    TFieldDepth
+  > = FieldArrayPath<TFieldValues, TFieldDepth>,
   TKeyName extends string = 'id',
-> = FieldArray<TFieldValues, TFieldArrayName> & Record<TKeyName, string>;
+> = FieldArray<TFieldValues, TFieldDepth, TFieldArrayName> &
+  Record<TKeyName, string>;
 
 export type FieldArray<
   TFieldValues extends FieldValues = FieldValues,
-  TFieldArrayName extends
-    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+  TFieldDepth extends number = DefaultDepth,
+  TFieldArrayName extends FieldArrayPath<
+    TFieldValues,
+    TFieldDepth
+  > = FieldArrayPath<TFieldValues, TFieldDepth>,
 > =
-  FieldArrayPathValue<TFieldValues, TFieldArrayName> extends
+  FieldArrayPathValue<TFieldValues, TFieldArrayName, TFieldDepth> extends
     | ReadonlyArray<infer U>
     | null
     | undefined
@@ -112,12 +129,15 @@ export type UseFieldArrayMove = (indexA: number, indexB: number) => void;
  */
 export type UseFieldArrayPrepend<
   TFieldValues extends FieldValues,
-  TFieldArrayName extends
-    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+  TFieldDepth extends number,
+  TFieldArrayName extends FieldArrayPath<
+    TFieldValues,
+    TFieldDepth
+  > = FieldArrayPath<TFieldValues, TFieldDepth>,
 > = (
   value:
-    | FieldArray<TFieldValues, TFieldArrayName>
-    | FieldArray<TFieldValues, TFieldArrayName>[],
+    | FieldArray<TFieldValues, TFieldDepth, TFieldArrayName>
+    | FieldArray<TFieldValues, TFieldDepth, TFieldArrayName>[],
   options?: FieldArrayMethodProps,
 ) => void;
 
@@ -144,12 +164,15 @@ export type UseFieldArrayPrepend<
  */
 export type UseFieldArrayAppend<
   TFieldValues extends FieldValues,
-  TFieldArrayName extends
-    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+  TFieldDepth extends number,
+  TFieldArrayName extends FieldArrayPath<
+    TFieldValues,
+    TFieldDepth
+  > = FieldArrayPath<TFieldValues, TFieldDepth>,
 > = (
   value:
-    | FieldArray<TFieldValues, TFieldArrayName>
-    | FieldArray<TFieldValues, TFieldArrayName>[],
+    | FieldArray<TFieldValues, TFieldDepth, TFieldArrayName>
+    | FieldArray<TFieldValues, TFieldDepth, TFieldArrayName>[],
   options?: FieldArrayMethodProps,
 ) => void;
 
@@ -198,13 +221,16 @@ export type UseFieldArrayRemove = (index?: number | number[]) => void;
  */
 export type UseFieldArrayInsert<
   TFieldValues extends FieldValues,
-  TFieldArrayName extends
-    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+  TFieldDepth extends number,
+  TFieldArrayName extends FieldArrayPath<
+    TFieldValues,
+    TFieldDepth
+  > = FieldArrayPath<TFieldValues, TFieldDepth>,
 > = (
   index: number,
   value:
-    | FieldArray<TFieldValues, TFieldArrayName>
-    | FieldArray<TFieldValues, TFieldArrayName>[],
+    | FieldArray<TFieldValues, TFieldDepth, TFieldArrayName>
+    | FieldArray<TFieldValues, TFieldDepth, TFieldArrayName>[],
   options?: FieldArrayMethodProps,
 ) => void;
 
@@ -230,9 +256,15 @@ export type UseFieldArrayInsert<
  */
 export type UseFieldArrayUpdate<
   TFieldValues extends FieldValues,
-  TFieldArrayName extends
-    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
-> = (index: number, value: FieldArray<TFieldValues, TFieldArrayName>) => void;
+  TFieldDepth extends number,
+  TFieldArrayName extends FieldArrayPath<
+    TFieldValues,
+    TFieldDepth
+  > = FieldArrayPath<TFieldValues, TFieldDepth>,
+> = (
+  index: number,
+  value: FieldArray<TFieldValues, TFieldDepth, TFieldArrayName>,
+) => void;
 
 /**
  * Replace the entire field array values.
@@ -254,27 +286,38 @@ export type UseFieldArrayUpdate<
  */
 export type UseFieldArrayReplace<
   TFieldValues extends FieldValues,
-  TFieldArrayName extends
-    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+  TFieldDepth extends number,
+  TFieldArrayName extends FieldArrayPath<
+    TFieldValues,
+    TFieldDepth
+  > = FieldArrayPath<TFieldValues, TFieldDepth>,
 > = (
   value:
-    | FieldArray<TFieldValues, TFieldArrayName>
-    | FieldArray<TFieldValues, TFieldArrayName>[],
+    | FieldArray<TFieldValues, TFieldDepth, TFieldArrayName>
+    | FieldArray<TFieldValues, TFieldDepth, TFieldArrayName>[],
 ) => void;
 
 export type UseFieldArrayReturn<
   TFieldValues extends FieldValues = FieldValues,
-  TFieldArrayName extends
-    FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>,
+  TFieldDepth extends number = DefaultDepth,
+  TFieldArrayName extends FieldArrayPath<
+    TFieldValues,
+    TFieldDepth
+  > = FieldArrayPath<TFieldValues, TFieldDepth>,
   TKeyName extends string = 'id',
 > = {
   swap: UseFieldArraySwap;
   move: UseFieldArrayMove;
-  prepend: UseFieldArrayPrepend<TFieldValues, TFieldArrayName>;
-  append: UseFieldArrayAppend<TFieldValues, TFieldArrayName>;
+  prepend: UseFieldArrayPrepend<TFieldValues, TFieldDepth, TFieldArrayName>;
+  append: UseFieldArrayAppend<TFieldValues, TFieldDepth, TFieldArrayName>;
   remove: UseFieldArrayRemove;
-  insert: UseFieldArrayInsert<TFieldValues, TFieldArrayName>;
-  update: UseFieldArrayUpdate<TFieldValues, TFieldArrayName>;
-  replace: UseFieldArrayReplace<TFieldValues, TFieldArrayName>;
-  fields: FieldArrayWithId<TFieldValues, TFieldArrayName, TKeyName>[];
+  insert: UseFieldArrayInsert<TFieldValues, TFieldDepth, TFieldArrayName>;
+  update: UseFieldArrayUpdate<TFieldValues, TFieldDepth, TFieldArrayName>;
+  replace: UseFieldArrayReplace<TFieldValues, TFieldDepth, TFieldArrayName>;
+  fields: FieldArrayWithId<
+    TFieldValues,
+    TFieldDepth,
+    TFieldArrayName,
+    TKeyName
+  >[];
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { DefaultDepth } from './path/eager';
 import { RegisterOptions } from './validator';
 import {
   Control,
@@ -22,11 +23,15 @@ export type ControllerFieldState = {
 
 export type ControllerRenderProps<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  TFieldDepth extends number = DefaultDepth,
+  TName extends FieldPath<TFieldValues, TFieldDepth> = FieldPath<
+    TFieldValues,
+    TFieldDepth
+  >,
 > = {
   onChange: (...event: any[]) => void;
   onBlur: Noop;
-  value: FieldPathValue<TFieldValues, TName>;
+  value: FieldPathValue<TFieldValues, TFieldDepth, TName>;
   disabled?: boolean;
   name: TName;
   ref: RefCallBack;
@@ -34,24 +39,32 @@ export type ControllerRenderProps<
 
 export type UseControllerProps<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  TFieldDepth extends number = DefaultDepth,
+  TName extends FieldPath<TFieldValues, TFieldDepth> = FieldPath<
+    TFieldValues,
+    TFieldDepth
+  >,
 > = {
   name: TName;
   rules?: Omit<
-    RegisterOptions<TFieldValues, TName>,
+    RegisterOptions<TFieldValues, TFieldDepth, TName>,
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
   shouldUnregister?: boolean;
-  defaultValue?: FieldPathValue<TFieldValues, TName>;
-  control?: Control<TFieldValues>;
+  defaultValue?: FieldPathValue<TFieldValues, TFieldDepth, TName>;
+  control?: Control<TFieldValues, TFieldDepth>;
   disabled?: boolean;
 };
 
 export type UseControllerReturn<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  TFieldDepth extends number = DefaultDepth,
+  TName extends FieldPath<TFieldValues, TFieldDepth> = FieldPath<
+    TFieldValues,
+    TFieldDepth
+  >,
 > = {
-  field: ControllerRenderProps<TFieldValues, TName>;
+  field: ControllerRenderProps<TFieldValues, TFieldDepth, TName>;
   formState: UseFormStateReturn<TFieldValues>;
   fieldState: ControllerFieldState;
 };
@@ -79,15 +92,19 @@ export type UseControllerReturn<
  */
 export type ControllerProps<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  TFieldDepth extends number = DefaultDepth,
+  TName extends FieldPath<TFieldValues, TFieldDepth> = FieldPath<
+    TFieldValues,
+    TFieldDepth
+  >,
 > = {
   render: ({
     field,
     fieldState,
     formState,
   }: {
-    field: ControllerRenderProps<TFieldValues, TName>;
+    field: ControllerRenderProps<TFieldValues, TFieldDepth, TName>;
     fieldState: ControllerFieldState;
     formState: UseFormStateReturn<TFieldValues>;
   }) => React.ReactElement;
-} & UseControllerProps<TFieldValues, TName>;
+} & UseControllerProps<TFieldValues, TFieldDepth, TName>;

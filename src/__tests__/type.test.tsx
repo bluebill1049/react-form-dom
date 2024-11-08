@@ -277,7 +277,7 @@ test('should work with generic component path assertion', () => {
     };
 
     register(`FieldName${FIELD_DATA_EXTENSION}` as FieldPath<T>, {
-      value: item as PathValue<T, Path<T>>,
+      value: item as PathValue<T, any, Path<T>>,
     });
 
     return null;
