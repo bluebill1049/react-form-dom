@@ -159,6 +159,15 @@ export function useController<
           if (field && elm) {
             field._f.ref = {
               focus: () => elm.focus(),
+              scrollIntoView: (
+                arg?:
+                  | boolean
+                  | {
+                      inline?: 'center' | 'end' | 'nearest' | 'start';
+                      block?: 'center' | 'end' | 'nearest' | 'start';
+                      behavior?: 'auto' | 'instant' | 'smooth';
+                    },
+              ) => elm.scrollIntoView(arg),
               select: () => elm.select(),
               setCustomValidity: (message: string) =>
                 elm.setCustomValidity(message),
