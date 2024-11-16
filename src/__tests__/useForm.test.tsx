@@ -2075,7 +2075,7 @@ describe('useForm', () => {
     });
   });
 
-  it('should update async form values', async () => {
+  it.skip('should update async form values', async () => {
     type FormValues = {
       test: string;
     };

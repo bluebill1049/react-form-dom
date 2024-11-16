@@ -13,13 +13,13 @@ import { useFieldArray } from '../../useFieldArray';
 import { useForm } from '../../useForm';
 import noop from '../../utils/noop';
 
-let i = 0;
+let mockId = 0;
 
-jest.mock('../../logic/generateId', () => () => String(i++));
+jest.mock('../../logic/generateId', () => () => String(mockId++));
 
 describe('move', () => {
   beforeEach(() => {
-    i = 0;
+    mockId = 0;
   });
 
   it.each(['isDirty', 'dirtyFields'])(

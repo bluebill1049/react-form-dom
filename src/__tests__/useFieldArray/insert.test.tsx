@@ -17,13 +17,13 @@ import noop from '../../utils/noop';
 
 jest.useFakeTimers();
 
-let i = 0;
+let mockId = 0;
 
-jest.mock('../../logic/generateId', () => () => String(i++));
+jest.mock('../../logic/generateId', () => () => String(mockId++));
 
 describe('insert', () => {
   beforeEach(() => {
-    i = 0;
+    mockId = 0;
   });
 
   it('should insert data at index with single value', () => {

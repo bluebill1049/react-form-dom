@@ -14,13 +14,20 @@ interface DefaultValues {
   test: TestValue[];
 }
 
-let i = 0;
+let mockId = 0;
 
-jest.mock('../../logic/generateId', () => () => String(i++));
+jest.mock('../../logic/generateId', () => () => String(mockId++));
+
+const ControlledInput = ({ index }: { index: number }) => {
+  const { field } = useController({
+    name: `fieldArray.${index}.firstName`,
+  });
+  return <input {...field} />;
+};
 
 describe('replace', () => {
   beforeEach(() => {
-    i = 0;
+    mockId = 0;
   });
 
   it('should replace fields correctly', () => {
@@ -259,13 +266,6 @@ describe('replace', () => {
   });
 
   it('should not affect other formState during replace action', () => {
-    const ControlledInput = ({ index }: { index: number }) => {
-      const { field } = useController({
-        name: `fieldArray.${index}.firstName`,
-      });
-      return <input {...field} />;
-    };
-
     const defaultValue = {
       firstName: 'test',
     };

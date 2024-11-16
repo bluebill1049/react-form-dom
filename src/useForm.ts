@@ -5,6 +5,7 @@ import getProxyFormState from './logic/getProxyFormState';
 import shouldRenderFormState from './logic/shouldRenderFormState';
 import deepEqual from './utils/deepEqual';
 import isFunction from './utils/isFunction';
+import { updateMethodsReference } from './utils/updateMethodsReference';
 import {
   FieldValues,
   FormState,
@@ -119,6 +120,7 @@ export function useForm<
 
   React.useEffect(() => {
     if (props.values && !deepEqual(props.values, _values.current)) {
+      updateMethodsReference(_formControl);
       control._reset(props.values, control._options.resetOptions);
       _values.current = props.values;
       updateFormState((state) => ({ ...state }));
@@ -153,6 +155,10 @@ export function useForm<
         values: control._getWatch(),
       });
   }, [props.shouldUnregister, control]);
+
+  React.useEffect(() => {
+    updateMethodsReference(_formControl);
+  }, [formState]);
 
   _formControl.current.formState = getProxyFormState(formState, control);
 

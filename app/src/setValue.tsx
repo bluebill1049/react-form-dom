@@ -30,6 +30,9 @@ const SetValue: React.FC = () => {
 
   useEffect(() => {
     register('lastName', { required: true });
+  }, [register, setValue]);
+
+  useEffect(() => {
     setValue('firstName', 'wrong', { shouldDirty: true });
     setValue('age', '2', { shouldDirty: true });
     setValue('trigger', '', { shouldDirty: true, shouldValidate: true });
@@ -57,7 +60,7 @@ const SetValue: React.FC = () => {
       shouldValidate: true,
       shouldDirty: true,
     });
-  }, [register, setValue]);
+  }, [setValue]);
 
   renderCounter++;
 

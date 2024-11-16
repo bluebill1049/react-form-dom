@@ -80,7 +80,12 @@ describe('Form', () => {
     const onSubmit = jest.fn();
     const onError = jest.fn();
 
-    const App = () => {
+    type AppProps = {
+      onSubmit: () => void;
+      onError: () => void;
+    };
+
+    const App = ({ onError, onSubmit }: AppProps) => {
       const [message, setMessage] = React.useState('');
       const {
         control,
@@ -113,7 +118,7 @@ describe('Form', () => {
       );
     };
 
-    render(<App />);
+    render(<App onError={onError} onSubmit={onSubmit} />);
 
     fireEvent.click(screen.getByRole('button'));
 
@@ -129,7 +134,12 @@ describe('Form', () => {
     const onSubmit = jest.fn();
     const onSuccess = jest.fn();
 
-    const App = () => {
+    type AppProps = {
+      onSubmit: () => void;
+      onSuccess: () => void;
+    };
+
+    const App = ({ onSubmit, onSuccess }: AppProps) => {
       const {
         control,
         formState: { isSubmitSuccessful, errors },
@@ -140,6 +150,7 @@ describe('Form', () => {
           encType={'application/json'}
           action={'/error'}
           onSubmit={onSubmit}
+          onSuccess={onSuccess}
           control={control}
         >
           <button>Submit</button>
@@ -150,7 +161,7 @@ describe('Form', () => {
       );
     };
 
-    render(<App />);
+    render(<App onSuccess={onSuccess} onSubmit={onSubmit} />);
 
     fireEvent.click(screen.getByRole('button'));
 
@@ -251,7 +262,12 @@ describe('Form', () => {
 
   it('should support fetcher prop with external request', async () => {
     const fetcher = jest.fn();
-    const App = () => {
+
+    type AppProps = {
+      fetcher: () => Promise<void>;
+    };
+
+    const App = ({ fetcher }: AppProps) => {
       const {
         control,
         formState: { isSubmitSuccessful },
@@ -270,7 +286,7 @@ describe('Form', () => {
       );
     };
 
-    render(<App />);
+    render(<App fetcher={fetcher} />);
 
     fireEvent.click(screen.getByRole('button'));
 
@@ -283,7 +299,12 @@ describe('Form', () => {
 
   it('should include application/json header with encType supplied', async () => {
     const onSuccess = jest.fn();
-    const App = () => {
+
+    type AppProps = {
+      onSuccess: () => void;
+    };
+
+    const App = ({ onSuccess }: AppProps) => {
       const {
         control,
         formState: { isSubmitSuccessful },
@@ -302,7 +323,7 @@ describe('Form', () => {
       );
     };
 
-    render(<App />);
+    render(<App onSuccess={onSuccess} />);
 
     fireEvent.click(screen.getByRole('button'));
 

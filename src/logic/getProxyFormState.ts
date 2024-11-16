@@ -8,6 +8,7 @@ export default <TFieldValues extends FieldValues, TContext = any>(
   isRoot = true,
 ) => {
   const result = {
+    ...formState,
     defaultValues: control._defaultValues,
   } as typeof formState;
 

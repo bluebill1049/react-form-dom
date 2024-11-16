@@ -131,15 +131,17 @@ export function useController<
         ? { disabled: formState.disabled || disabled }
         : {}),
       onChange: React.useCallback(
-        (event) =>
-          _registerProps.current.onChange({
+        (event) => {
+          !get(control._fields, name) && control.register(name);
+          return _registerProps.current.onChange({
             target: {
               value: getEventValue(event),
               name: name as InternalFieldName,
             },
             type: EVENTS.CHANGE,
-          }),
-        [name],
+          });
+        },
+        [name, control],
       ),
       onBlur: React.useCallback(
         () =>

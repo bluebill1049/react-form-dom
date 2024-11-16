@@ -435,7 +435,11 @@ describe('handleSubmit', () => {
   it('should be able to submit correctly when errors contains empty array object', async () => {
     const onSubmit = jest.fn();
 
-    const App = () => {
+    type AppProps = {
+      onSubmit: () => void;
+    };
+
+    const App = ({ onSubmit }: AppProps) => {
       const { register, control, handleSubmit } = useForm({
         defaultValues: {
           test: [{ name: '1234' }],
@@ -467,7 +471,7 @@ describe('handleSubmit', () => {
       );
     };
 
-    render(<App />);
+    render(<App onSubmit={onSubmit} />);
 
     fireEvent.change(screen.getByRole('textbox'), {
       target: {
@@ -485,7 +489,11 @@ describe('handleSubmit', () => {
   it('should be able to submit correctly when errors contains empty array object and errors state is subscribed', async () => {
     const onSubmit = jest.fn();
 
-    const App = () => {
+    type AppProps = {
+      onSubmit: () => void;
+    };
+
+    const App = ({ onSubmit }: AppProps) => {
       const {
         register,
         control,
@@ -525,7 +533,7 @@ describe('handleSubmit', () => {
       );
     };
 
-    render(<App />);
+    render(<App onSubmit={onSubmit} />);
 
     fireEvent.change(screen.getByRole('textbox'), {
       target: {

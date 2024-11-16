@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   act,
   fireEvent,
@@ -565,6 +565,7 @@ describe('watch', () => {
       const { watch, control } = useForm<FormValues>({
         defaultValues: { names: [] },
       });
+      const watchRef = useRef(watch);
 
       const { fields, append } = useFieldArray({
         control,
@@ -572,14 +573,14 @@ describe('watch', () => {
       });
 
       useEffect(() => {
-        const subscription = watch((_value, { name }) => {
+        const subscription = watchRef.current((_value, { name }) => {
           mockedFn(name, _value);
         });
 
         return () => {
           subscription.unsubscribe();
         };
-      }, [watch]);
+      }, []);
 
       const addItem = (index: number) => {
         append({ firstName: '' }, { focusName: `names.${index}.firstName` });

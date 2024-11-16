@@ -13,13 +13,13 @@ import { useFieldArray } from '../../useFieldArray';
 import { useForm } from '../../useForm';
 import noop from '../../utils/noop';
 
-let i = 0;
+let mockId = 0;
 
-jest.mock('../../logic/generateId', () => () => String(i++));
+jest.mock('../../logic/generateId', () => () => String(mockId++));
 
 describe('swap', () => {
   beforeEach(() => {
-    i = 0;
+    mockId = 0;
   });
 
   it('should swap into pointed position', () => {

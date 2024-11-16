@@ -14,13 +14,13 @@ import { useController } from '../../useController';
 import { useFieldArray } from '../../useFieldArray';
 import { useForm } from '../../useForm';
 
-let i = 0;
+let mockId = 0;
 
-jest.mock('../../logic/generateId', () => () => String(i++));
+jest.mock('../../logic/generateId', () => () => String(mockId++));
 
 describe('append', () => {
   beforeEach(() => {
-    i = 0;
+    mockId = 0;
   });
 
   it('should append dirtyFields fields correctly', async () => {
