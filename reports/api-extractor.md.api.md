@@ -197,6 +197,11 @@ export type FieldArrayMethodProps = {
 export type FieldArrayPath<TFieldValues extends FieldValues> = ArrayPath<TFieldValues>;
 
 // @public
+export type FieldArrayPathByValue<TFieldValues extends FieldValues, TValue> = {
+    [Key in FieldArrayPath<TFieldValues>]: FieldArrayPathValue<TFieldValues, Key> extends TValue ? Key : never;
+}[FieldArrayPath<TFieldValues>];
+
+// @public
 export type FieldArrayPathValue<TFieldValues extends FieldValues, TFieldArrayPath extends FieldArrayPath<TFieldValues>> = PathValue<TFieldValues, TFieldArrayPath>;
 
 // @public
