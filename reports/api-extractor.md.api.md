@@ -199,6 +199,11 @@ export type FieldArrayPath<TFieldValues extends FieldValues> = ArrayPath<TFieldV
 // @public
 export type FieldArrayPathValue<TFieldValues extends FieldValues, TFieldArrayPath extends FieldArrayPath<TFieldValues>> = PathValue<TFieldValues, TFieldArrayPath>;
 
+// @public (undocumented)
+export type FieldArrayProps<TFieldValues extends FieldValues = FieldValues, TFieldArrayName extends FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>, TKeyName extends string = 'id'> = {
+    render: (fieldArray: UseFieldArrayReturn<TFieldValues, TFieldArrayName, TKeyName>) => React.ReactElement;
+} & UseFieldArrayProps<TFieldValues, TFieldArrayName, TKeyName>;
+
 // @public
 export type FieldArrayWithId<TFieldValues extends FieldValues = FieldValues, TFieldArrayName extends FieldArrayPath<TFieldValues> = FieldArrayPath<TFieldValues>, TKeyName extends string = 'id'> = FieldArray<TFieldValues, TFieldArrayName> & Record<TKeyName, string>;
 
