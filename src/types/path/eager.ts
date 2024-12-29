@@ -144,7 +144,7 @@ export type FieldArrayPath<TFieldValues extends FieldValues> =
  * PathValue<[number, string], '1'> = string
  * ```
  */
-export type PathValue<T, P extends Path<T> | ArrayPath<T>> = T extends any
+export type PathValue<T, P extends string> = T extends any
   ? P extends `${infer K}.${infer R}`
     ? K extends keyof T
       ? R extends Path<T[K]>
@@ -169,7 +169,7 @@ export type PathValue<T, P extends Path<T> | ArrayPath<T>> = T extends any
  */
 export type FieldPathValue<
   TFieldValues extends FieldValues,
-  TFieldPath extends FieldPath<TFieldValues>,
+  TFieldPath extends string,
 > = PathValue<TFieldValues, TFieldPath>;
 
 /**

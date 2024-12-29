@@ -535,9 +535,11 @@ export type UseFormClearErrors<TFieldValues extends FieldValues> = (
  * ```
  */
 export type UseFormSetValue<TFieldValues extends FieldValues> = <
-  TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  TFieldName extends string,
 >(
-  name: TFieldName,
+  name: FieldPathValue<TFieldValues, TFieldName> extends never
+    ? FieldPath<TFieldValues>
+    : TFieldName,
   value: FieldPathValue<TFieldValues, TFieldName>,
   options?: SetValueConfig,
 ) => void;
