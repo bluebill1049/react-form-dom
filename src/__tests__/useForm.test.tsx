@@ -9,7 +9,7 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 
-import { VALIDATION_MODE } from '../constants';
+import { EVENTS, VALIDATION_MODE } from '../constants';
 import {
   Control,
   FieldErrors,
@@ -1139,7 +1139,7 @@ describe('useForm', () => {
           {
             test: 'test',
           },
-          undefined,
+          expect.objectContaining({ validationEvent: EVENTS.CHANGE }),
           {
             criteriaMode: undefined,
             fields: {
@@ -1164,7 +1164,7 @@ describe('useForm', () => {
           {
             test: 'test',
           },
-          undefined,
+          expect.objectContaining({ validationEvent: EVENTS.SUBMIT }),
           {
             criteriaMode: undefined,
             fields: {

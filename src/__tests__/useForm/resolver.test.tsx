@@ -1,6 +1,7 @@
 import React from 'react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 
+import { EVENTS } from '../../constants';
 import { useForm } from '../../useForm';
 import noop from '../../utils/noop';
 import sleep from '../../utils/sleep';
@@ -11,32 +12,21 @@ describe('resolver', () => {
       test: string;
     };
 
+    const resolverSpy = jest.fn(() => ({ errors: {}, values: {} }));
+    const testContext = { test: 'test' };
+
     const App = () => {
-      const [test, setTest] = React.useState('');
-      const [data, setData] = React.useState({});
-      const { handleSubmit } = useForm<FormValues>({
-        resolver: (_, context) => {
-          return {
-            errors: {},
-            values: context as FormValues,
-          };
-        },
-        context: {
-          test,
-        },
+      const { handleSubmit, register } = useForm<FormValues>({
+        mode: 'onSubmit',
+        resolver: resolverSpy,
+        context: testContext,
       });
 
       return (
-        <>
-          <input
-            value={test}
-            onChange={(e) => {
-              setTest(e.target.value);
-            }}
-          />
-          <button onClick={handleSubmit((data) => setData(data))}>Test</button>
-          <p>{JSON.stringify(data)}</p>
-        </>
+        <form onSubmit={handleSubmit(() => null)}>
+          <input {...register('test')} />
+          <input type="submit" />
+        </form>
       );
     };
 
@@ -47,9 +37,11 @@ describe('resolver', () => {
     });
     fireEvent.click(screen.getByRole('button'));
 
-    expect(
-      await screen.findByText('{"test":"test"}', undefined, { timeout: 3000 }),
-    ).toBeVisible();
+    expect(resolverSpy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining(testContext),
+      expect.anything(),
+    );
   });
 
   it('should support resolver schema switching', async () => {
@@ -213,5 +205,53 @@ describe('resolver', () => {
     });
 
     expect(errorsObject).toEqual({});
+  });
+
+  it('should be called with the event that triggered validation', () => {
+    type FormValues = {
+      test: string;
+    };
+
+    const resolverSpy = jest.fn(() => ({ errors: {}, values: {} }));
+
+    const App = () => {
+      const { handleSubmit, register } = useForm<FormValues>({
+        mode: 'all',
+        resolver: resolverSpy,
+      });
+
+      return (
+        <form onSubmit={handleSubmit(() => null)}>
+          <input {...register('test')} />
+          <input type="submit" />
+        </form>
+      );
+    };
+
+    render(<App />);
+
+    const input = screen.getByRole('textbox');
+    const submit = screen.getByRole('button');
+
+    fireEvent.change(input, { target: { value: 'test' } });
+    expect(resolverSpy).toHaveBeenLastCalledWith(
+      expect.anything(),
+      expect.objectContaining({ validationEvent: EVENTS.CHANGE }),
+      expect.anything(),
+    );
+
+    fireEvent.blur(input);
+    expect(resolverSpy).toHaveBeenLastCalledWith(
+      expect.anything(),
+      expect.objectContaining({ validationEvent: EVENTS.BLUR }),
+      expect.anything(),
+    );
+
+    fireEvent.click(submit);
+    expect(resolverSpy).toHaveBeenLastCalledWith(
+      expect.anything(),
+      expect.objectContaining({ validationEvent: EVENTS.SUBMIT }),
+      expect.anything(),
+    );
   });
 });

@@ -500,7 +500,15 @@ export type RegisterOptions<TFieldValues extends FieldValues = FieldValues, TFie
 });
 
 // @public (undocumented)
-export type Resolver<TFieldValues extends FieldValues = FieldValues, TContext = any> = (values: TFieldValues, context: TContext | undefined, options: ResolverOptions<TFieldValues>) => Promise<ResolverResult<TFieldValues>> | ResolverResult<TFieldValues>;
+export type Resolver<TFieldValues extends FieldValues = FieldValues, TContext = any> = (values: TFieldValues, context: (ResolverContext & TContext) | TContext | undefined, options: ResolverOptions<TFieldValues>) => Promise<ResolverResult<TFieldValues>> | ResolverResult<TFieldValues>;
+
+// @public (undocumented)
+export interface ResolverContext {
+    // Warning: (ae-forgotten-export) The symbol "EVENTS" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    validationEvent?: typeof EVENTS.BLUR | typeof EVENTS.CHANGE | typeof EVENTS.SUBMIT;
+}
 
 // @public (undocumented)
 export type ResolverError<TFieldValues extends FieldValues = FieldValues> = {

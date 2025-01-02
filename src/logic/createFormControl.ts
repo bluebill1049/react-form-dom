@@ -20,6 +20,7 @@ import {
   Path,
   ReadFormState,
   Ref,
+  ResolverContext,
   SetFieldValue,
   SetValueConfig,
   Subjects,
@@ -409,11 +410,17 @@ export function createFormControl<
     }
   };
 
-  const _executeSchema = async (name?: InternalFieldName[]) => {
+  const _executeSchema = async (
+    name?: InternalFieldName[],
+    context?: ResolverContext,
+  ) => {
+    const resolverContext = context
+      ? ({ ...context, ..._options.context } as ResolverContext & TContext)
+      : _options.context;
     _updateIsValidating(name, true);
     const result = await _options.resolver!(
       _formValues as TFieldValues,
-      _options.context,
+      resolverContext,
       getResolverOptions(
         name || _names.mount,
         _fields,
@@ -776,7 +783,9 @@ export function createFormControl<
       !isBlurEvent && watched && _subjects.state.next({ ..._formState });
 
       if (_options.resolver) {
-        const { errors } = await _executeSchema([name]);
+        const { errors } = await _executeSchema([name], {
+          validationEvent: isBlurEvent ? EVENTS.BLUR : EVENTS.CHANGE,
+        });
 
         _updateIsFieldValueUpdated(fieldValue);
 
@@ -1177,7 +1186,9 @@ export function createFormControl<
       });
 
       if (_options.resolver) {
-        const { errors, values } = await _executeSchema();
+        const { errors, values } = await _executeSchema(undefined, {
+          validationEvent: EVENTS.SUBMIT,
+        });
         _formState.errors = errors;
         fieldValues = values;
       } else {
