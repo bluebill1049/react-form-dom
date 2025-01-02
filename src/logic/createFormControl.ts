@@ -715,7 +715,7 @@ export function createFormControl<
 
     if (field) {
       let error;
-      let isValid;
+      let isValid: boolean | undefined;
       const fieldValue = getCurrentFieldValue();
       const isBlurEvent =
         event.type === EVENTS.BLUR || event.type === EVENTS.FOCUS_OUT;
@@ -781,6 +781,23 @@ export function createFormControl<
         _updateIsFieldValueUpdated(fieldValue);
 
         if (isFieldValueUpdated) {
+          if (props.experimentalMultiError) {
+            _formState.errors = errors;
+            unset(_formState.errors, 'root');
+
+            if (isEmptyObject(_formState.errors)) {
+              _subjects.state.next({
+                errors: {},
+              });
+            } else {
+              _focusError();
+              setTimeout(_focusError);
+            }
+
+            _subjects.state.next({
+              errors: _formState.errors,
+            });
+          }
           const previousErrorLookupResult = schemaErrorLookup(
             _formState.errors,
             _fields,
@@ -828,7 +845,9 @@ export function createFormControl<
               | FieldPath<TFieldValues>
               | FieldPath<TFieldValues>[],
           );
-        shouldRenderByError(name, isValid, error, fieldState);
+        if (!props.experimentalMultiError) {
+          shouldRenderByError(name, isValid, error, fieldState);
+        }
       }
     }
   };
