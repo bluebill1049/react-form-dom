@@ -6,6 +6,7 @@ import cloneObject from './utils/cloneObject';
 import {
   Control,
   DeepPartialSkipArrayKey,
+  EventType,
   FieldPath,
   FieldPathValue,
   FieldPathValues,
@@ -44,6 +45,7 @@ export function useWatch<
   control?: Control<TFieldValues>;
   disabled?: boolean;
   exact?: boolean;
+  type?: EventType;
 }): DeepPartialSkipArrayKey<TFieldValues>;
 /**
  * Custom hook to subscribe to field change and isolate re-rendering at the component level.
@@ -74,6 +76,7 @@ export function useWatch<
   control?: Control<TFieldValues>;
   disabled?: boolean;
   exact?: boolean;
+  type?: EventType;
 }): FieldPathValue<TFieldValues, TFieldName>;
 /**
  * Custom hook to subscribe to field change and isolate re-rendering at the component level.
@@ -108,6 +111,7 @@ export function useWatch<
   control?: Control<TFieldValues>;
   disabled?: boolean;
   exact?: boolean;
+  type?: EventType;
 }): FieldPathValues<TFieldValues, TFieldNames>;
 /**
  * Custom hook to subscribe to field change and isolate re-rendering at the component level.
@@ -151,6 +155,7 @@ export function useWatch<TFieldValues extends FieldValues>(
     defaultValue,
     disabled,
     exact,
+    type,
   } = props || {};
   const _name = React.useRef(name);
 
@@ -159,8 +164,13 @@ export function useWatch<TFieldValues extends FieldValues>(
   useSubscribe({
     disabled,
     subject: control._subjects.values,
-    next: (formState: { name?: InternalFieldName; values?: FieldValues }) => {
+    next: (formState: {
+      name?: InternalFieldName;
+      type?: EventType;
+      values?: FieldValues;
+    }) => {
       if (
+        (type ? formState.type === type : true) &&
         shouldSubscribeByName(
           _name.current as InternalFieldName,
           formState.name,

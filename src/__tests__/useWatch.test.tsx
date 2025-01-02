@@ -340,6 +340,46 @@ describe('useWatch', () => {
     expect(screen.getByText('345')).toBeVisible();
   });
 
+  it('should subscribe to specific event type', () => {
+    const App = () => {
+      const { control, register, setValue } = useForm();
+      const value = useWatch({
+        name: 'test',
+        control,
+        defaultValue: 'test',
+        type: 'change',
+      });
+
+      return (
+        <div>
+          <input {...register('test')} />
+          <p>{value}</p>
+          <button
+            onClick={() => {
+              setValue('test', '12345');
+            }}
+          >
+            set programmatically
+          </button>
+        </div>
+      );
+    };
+
+    render(<App />);
+
+    fireEvent.change(screen.getByRole('textbox'), {
+      target: {
+        value: '1234',
+      },
+    });
+
+    expect(screen.getByText('1234')).toBeVisible();
+
+    fireEvent.click(screen.getByRole('button'));
+
+    expect(screen.getByText('1234')).toBeVisible();
+  });
+
   describe('when disabled prop is used', () => {
     it('should be able to disabled subscription and started with true', async () => {
       type FormValues = {

@@ -797,6 +797,7 @@ export function useWatch<TFieldValues extends FieldValues = FieldValues>(props: 
     control?: Control<TFieldValues>;
     disabled?: boolean;
     exact?: boolean;
+    type?: EventType;
 }): DeepPartialSkipArrayKey<TFieldValues>;
 
 // @public
@@ -806,6 +807,7 @@ export function useWatch<TFieldValues extends FieldValues = FieldValues, TFieldN
     control?: Control<TFieldValues>;
     disabled?: boolean;
     exact?: boolean;
+    type?: EventType;
 }): FieldPathValue<TFieldValues, TFieldName>;
 
 // @public
@@ -815,6 +817,7 @@ export function useWatch<TFieldValues extends FieldValues = FieldValues, TFieldN
     control?: Control<TFieldValues>;
     disabled?: boolean;
     exact?: boolean;
+    type?: EventType;
 }): FieldPathValues<TFieldValues, TFieldNames>;
 
 // @public
@@ -827,6 +830,7 @@ export type UseWatchProps<TFieldValues extends FieldValues = FieldValues> = {
     name?: FieldPath<TFieldValues> | FieldPath<TFieldValues>[] | readonly FieldPath<TFieldValues>[];
     control?: Control<TFieldValues>;
     exact?: boolean;
+    type?: EventType;
 };
 
 // @public (undocumented)
