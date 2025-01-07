@@ -139,5 +139,8 @@
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@types/node": "^22.1.0"
   }
 }
