@@ -11,6 +11,12 @@ import { ReactElement } from 'react';
 // @public (undocumented)
 export const appendErrors: (name: InternalFieldName, validateAllFieldCriteria: boolean, errors: InternalFieldErrors, type: string, message: ValidateResult) => {};
 
+// @public (undocumented)
+export interface ArrayLens<U> {
+    // (undocumented)
+    map<R>(callbackfn: (value: Lens<U>, index: number, array: Lens<U[]>) => R): R[];
+}
+
 // Warning: (ae-forgotten-export) The symbol "ArrayPathInternal" needs to be exported by the entry point index.d.ts
 //
 // @public
@@ -369,6 +375,18 @@ export type GlobalError = Partial<{
     message: Message;
 }>;
 
+// @public (undocumented)
+export interface HookFormLens<T> {
+    // (undocumented)
+    control: Control;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    register(options: RegisterOptions): UseFormRegisterReturn;
+    // (undocumented)
+    transform: <T2>(getter: (original: LensFocus<T>) => T2) => Lens<UnwrapLensDeep<T2>>;
+}
+
 // Warning: (ae-forgotten-export) The symbol "INPUT_VALIDATION_RULES" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
@@ -409,6 +427,15 @@ export type KeepStateOptions = Partial<{
     keepIsValid: boolean;
     keepSubmitCount: boolean;
 }>;
+
+// @public (undocumented)
+export type Lens<T> = HookFormLens<T> & (Exclude<T, undefined | null> extends FieldValues ? LensFocus<T> : unknown) & (Exclude<T, undefined | null> extends (infer U)[] ? ArrayLens<U> : unknown);
+
+// @public (undocumented)
+export interface LensFocus<T> {
+    // (undocumented)
+    focus: <P extends Path<Exclude<T, null | undefined>>>(path: P) => Lens<Exclude<PathValue<T, P>, null | undefined> extends any[] ? Exclude<PathValue<T, P>, null | undefined> : PathValue<T, P>>;
+}
 
 // @public (undocumented)
 export type LiteralUnion<T extends U, U extends Primitive> = T | (U & {
@@ -594,6 +621,14 @@ export type TriggerConfig = Partial<{
 export type UnpackNestedValue<T> = T extends NestedValue<infer U> ? U : T extends Date | FileList | File | Blob ? T : T extends object ? {
     [K in keyof T]: UnpackNestedValue<T[K]>;
 } : T;
+
+// @public (undocumented)
+export type UnwrapLens<T> = T extends Lens<infer U> ? U : never;
+
+// @public (undocumented)
+export type UnwrapLensDeep<T> = {
+    [P in keyof T]: UnwrapLens<T[P]>;
+};
 
 // @public
 export function useController<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: UseControllerProps<TFieldValues, TName>): UseControllerReturn<TFieldValues, TName>;
@@ -807,6 +842,11 @@ export type UseFormWatch<TFieldValues extends FieldValues> = {
     <TFieldName extends FieldPath<TFieldValues>>(name: TFieldName, defaultValue?: FieldPathValue<TFieldValues, TFieldName>): FieldPathValue<TFieldValues, TFieldName>;
     (callback: WatchObserver<TFieldValues>, defaultValues?: DeepPartial<TFieldValues>): Subscription;
 };
+
+// @public (undocumented)
+export function useLens<TFieldValues extends FieldValues = FieldValues>(props: {
+    control: Control<TFieldValues>;
+}): Lens<TFieldValues>;
 
 // @public
 export type UseFromSubscribe<TFieldValues extends FieldValues> = (payload: {

@@ -7,5 +7,6 @@ export * from './useFieldArray';
 export * from './useForm';
 export * from './useFormContext';
 export * from './useFormState';
+export * from './useLens';
 export * from './useWatch';
 export * from './utils';

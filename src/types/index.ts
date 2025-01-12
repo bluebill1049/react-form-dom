@@ -4,6 +4,7 @@ export * from './events';
 export * from './fieldArray';
 export * from './fields';
 export * from './form';
+export * from './lens';
 export * from './path';
 export * from './resolvers';
 export * from './utils';

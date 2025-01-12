@@ -11,5 +11,6 @@
   "useForm",
   "useFormContext",
   "useFormState",
+  "useLens",
   "useWatch"
 ]
