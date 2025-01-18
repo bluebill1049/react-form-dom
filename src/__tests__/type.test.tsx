@@ -1,4 +1,5 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 
 import { Controller } from '../controller';
 import {
@@ -501,4 +502,35 @@ test('should provide correct type for validate function with useFieldArray', () 
   };
 
   App;
+});
+
+test('should support compute function with useWatch', () => {
+  const Form = () => {
+    type FormValue = {
+      test: string;
+    };
+
+    const methods = useForm<FormValue>({
+      defaultValues: { test: 'test' },
+    });
+
+    const test = useWatch({
+      control: methods.control,
+      compute: (data: FormValue) => {
+        return {
+          data: 'test',
+          test: data.test,
+        };
+      },
+    });
+
+    return (
+      <div>
+        {test.test}
+        {test.data}
+      </div>
+    );
+  };
+
+  render(<Form />);
 });

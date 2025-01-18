@@ -40,6 +40,7 @@ export default tseslint.config(
       curly: 'error',
       'no-extra-boolean-cast': 'error',
       'cypress/unsafe-to-chain-command': 'off',
+      '@typescript-eslint/no-unnecessary-type-constraint': 'warn',
       '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/no-empty-function': 'off',
       '@typescript-eslint/ban-ts-comment': 'warn',

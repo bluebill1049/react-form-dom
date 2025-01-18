@@ -1665,4 +1665,69 @@ describe('useWatch', () => {
       expect(await screen.findByText('test')).toBeDefined();
     });
   });
+
+  describe('compute ', () => {
+    it('should only update when value changed within compute', () => {
+      type FormValue = {
+        test: string;
+      };
+
+      let renderCount = 0;
+
+      const Form = () => {
+        const methods = useForm<FormValue>({
+          defaultValues: { test: '' },
+        });
+
+        const watchedValue = useWatch({
+          control: methods.control,
+          compute: (data: FormValue) => data.test?.length > 2,
+        });
+
+        renderCount++;
+
+        return (
+          <div>
+            <input {...methods.register('test')} />
+            <p>{watchedValue ? 'yes' : 'no'}</p>
+            <p>{renderCount}</p>
+          </div>
+        );
+      };
+
+      render(<Form />);
+
+      screen.getByText('no');
+
+      fireEvent.change(screen.getByRole('textbox'), {
+        target: { value: '12' },
+      });
+
+      screen.getByText('no');
+
+      fireEvent.change(screen.getByRole('textbox'), {
+        target: { value: '123' },
+      });
+
+      screen.getByText('yes');
+
+      expect(renderCount).toEqual(2);
+
+      fireEvent.change(screen.getByRole('textbox'), {
+        target: { value: '12' },
+      });
+
+      screen.getByText('no');
+
+      expect(renderCount).toEqual(3);
+
+      fireEvent.change(screen.getByRole('textbox'), {
+        target: { value: '1' },
+      });
+
+      screen.getByText('no');
+
+      expect(renderCount).toEqual(3);
+    });
+  });
 });
