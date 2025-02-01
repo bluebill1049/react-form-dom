@@ -1,6 +1,12 @@
 import { expectType } from 'tsd';
 
-import { ArrayPath, FieldPathValues, Path, PathValue } from '../../types';
+import {
+  ArrayPath,
+  FieldPathValues,
+  Opaque,
+  Path,
+  PathValue,
+} from '../../types';
 import { _, Depth3Type } from '../__fixtures__';
 
 /** {@link Path} */ {
@@ -41,6 +47,15 @@ import { _, Depth3Type } from '../__fixtures__';
       | {};
     const actual = _ as Path<Foo>;
     expectType<'foo' | 'bar' | 'bar.baz'>(actual);
+  }
+
+  /** it should not traverse into opaque types */ {
+    type Foo = Opaque<{
+      foo: 'bar';
+    }>;
+
+    const actual = _ as Path<{ foo: Foo; bar: Foo }>;
+    expectType<'foo' | 'bar'>(actual);
   }
 }
 

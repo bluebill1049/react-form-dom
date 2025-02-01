@@ -31,6 +31,8 @@ export type Primitive =
   | symbol
   | bigint;
 
+export type Opaque<T> = T & { readonly __opaque: unique symbol };
+
 export type BrowserNativeObject = Date | FileList | File;
 
 export type EmptyObject = { [K in string | number]: never };
@@ -47,7 +49,10 @@ export type ExtractObjects<T> = T extends infer U
     : never
   : never;
 
-export type DeepPartial<T> = T extends BrowserNativeObject | NestedValue
+export type DeepPartial<T> = T extends
+  | BrowserNativeObject
+  | NestedValue
+  | Opaque<unknown>
   ? T
   : {
       [K in keyof T]?: ExtractObjects<T[K]> extends never
@@ -58,6 +63,7 @@ export type DeepPartial<T> = T extends BrowserNativeObject | NestedValue
 export type DeepPartialSkipArrayKey<T> = T extends
   | BrowserNativeObject
   | NestedValue
+  | Opaque<unknown>
   ? T
   : T extends ReadonlyArray<any>
     ? { [K in keyof T]: DeepPartialSkipArrayKey<T[K]> }
