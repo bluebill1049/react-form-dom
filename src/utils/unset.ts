@@ -31,7 +31,7 @@ export default function unset(object: any, path: string | (string | number)[]) {
       ? [path]
       : stringToPath(path);
 
-  const childObject = paths.length === 1 ? object : baseGet(object, paths);
+  const childObject = baseGet(object, paths);
 
   const index = paths.length - 1;
   const key = paths[index];
