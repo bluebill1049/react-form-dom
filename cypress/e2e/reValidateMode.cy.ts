@@ -16,7 +16,7 @@ describe('re-validate mode', () => {
     cy.get('button#submit').click();
 
     cy.get('p').should('have.length', 0);
-    cy.get('#renderCount').contains('3');
+    cy.get('#renderCount').contains('4');
   });
 
   it('should re-validate the form only onBlur with mode onSubmit and reValidateMode onBlur', () => {
@@ -41,7 +41,7 @@ describe('re-validate mode', () => {
     cy.get('input[name="lastName"]').blur();
 
     cy.get('p').should('have.length', 0);
-    cy.get('#renderCount').contains('4');
+    cy.get('#renderCount').contains('5');
   });
 
   it('should re-validate the form only onSubmit with mode onBlur and reValidateMode onSubmit', () => {
@@ -65,7 +65,7 @@ describe('re-validate mode', () => {
     cy.get('button#submit').click();
 
     cy.get('p').should('have.length', 0);
-    cy.get('#renderCount').contains('3');
+    cy.get('#renderCount').contains('4');
   });
 
   it('should re-validate the form only onSubmit with mode onChange and reValidateMode onSubmit', () => {
@@ -87,7 +87,7 @@ describe('re-validate mode', () => {
     cy.get('button#submit').click();
 
     cy.get('p').should('have.length', 0);
-    cy.get('#renderCount').contains('3');
+    cy.get('#renderCount').contains('4');
   });
 
   it('should re-validate the form onBlur only with mode onBlur and reValidateMode onBlur', () => {
@@ -108,7 +108,7 @@ describe('re-validate mode', () => {
     cy.get('input[name="lastName"]').blur();
 
     cy.get('p').should('have.length', 0);
-    cy.get('#renderCount').contains('5');
+    cy.get('#renderCount').contains('6');
   });
 
   it('should re-validate the form onChange with mode onBlur and reValidateMode onChange', () => {
@@ -130,6 +130,6 @@ describe('re-validate mode', () => {
     cy.get('input[name="lastName"]').type('luo12');
 
     cy.get('p').should('have.length', 0);
-    cy.get('#renderCount').contains('6');
+    cy.get('#renderCount').contains('7');
   });
 });

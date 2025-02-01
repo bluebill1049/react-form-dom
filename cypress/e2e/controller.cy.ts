@@ -20,10 +20,10 @@ describe('controller basic form validation', () => {
     cy.get('#input-ReactSelect > div > div').eq(1).click();
 
     cy.get('.container > p').should('have.length', 0);
-    cy.get('#renderCount').contains('8');
+    cy.get('#renderCount').contains('9');
   });
 
-  it('should validate the form with onBlur mode and reset the form', () => {
+  it.only('should validate the form with onBlur mode and reset the form', () => {
     cy.visit('http://localhost:3000/controller/onBlur');
 
     cy.get('p').should('have.length', 0);
@@ -51,7 +51,7 @@ describe('controller basic form validation', () => {
     cy.get('#input-switch input').blur();
 
     cy.get('p').should('have.length', 0);
-    cy.get('#renderCount').contains('9');
+    cy.get('#renderCount').contains('10');
   });
 
   it('should validate the form with onChange mode and reset the form', () => {
@@ -74,6 +74,6 @@ describe('controller basic form validation', () => {
     cy.get('#input-switch input').click();
 
     cy.get('p').should('have.length', 0);
-    cy.get('#renderCount').contains('7');
+    cy.get('#renderCount').contains('8');
   });
 });

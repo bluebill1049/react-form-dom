@@ -213,6 +213,6 @@ describe('useWatchUseFieldArrayNested', () => {
       ]),
     );
 
-    cy.get('#count').contains('8');
+    cy.get('#count').contains('9');
   });
 });

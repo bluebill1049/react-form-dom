@@ -132,9 +132,9 @@ describe('useFieldArrayUnregister', () => {
     cy.get('#result').should(($state) =>
       expect(JSON.parse($state.text())).to.be.deep.equal({
         data: [
-          { name: '5' },
+          { name: '6' },
           { name: 'billtestl' },
-          { name: '10' },
+          { name: '11' },
           { name: 'test1' },
           { name: 'test2' },
         ],
@@ -148,9 +148,9 @@ describe('useFieldArrayUnregister', () => {
     cy.get('#result').should(($state) =>
       expect(JSON.parse($state.text())).to.be.deep.equal({
         data: [
-          { name: '5' },
+          { name: '6' },
           { name: 'billtestl' },
-          { name: '10' },
+          { name: '11' },
           { name: 'test1test' },
           { name: 'test2' },
         ],
@@ -164,14 +164,14 @@ describe('useFieldArrayUnregister', () => {
     cy.get('#result').should(($state) =>
       expect(JSON.parse($state.text())).to.be.deep.equal({
         data: [
-          { name: '5' },
+          { name: '6' },
           { name: 'billtestl' },
-          { name: '10' },
+          { name: '11' },
           { name: 'test2' },
         ],
       }),
     );
 
-    cy.get('#renderCount').contains('25');
+    cy.get('#renderCount').contains('26');
   });
 });

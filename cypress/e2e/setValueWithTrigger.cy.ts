@@ -16,6 +16,6 @@ describe('form setValue with trigger', () => {
     cy.get('input[name="lastName"]').type('bill');
 
     cy.get('p').should('have.length', 0);
-    cy.get('#renderCount').contains('30');
+    cy.get('#renderCount').contains('31');
   });
 });

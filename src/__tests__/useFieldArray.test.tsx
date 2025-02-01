@@ -807,7 +807,7 @@ describe('useFieldArray', () => {
       expect(fieldsTemp).toEqual([
         { id: '0', value: 'default' },
         {
-          id: '1',
+          id: '2',
           value: 'test',
         },
       ]);
@@ -818,7 +818,7 @@ describe('useFieldArray', () => {
       expect(fieldsTemp).toEqual([
         { id: '0', value: 'default' },
         {
-          id: '1',
+          id: '2',
           value: 'test',
         },
       ]);
@@ -1119,7 +1119,7 @@ describe('useFieldArray', () => {
 
       fireEvent.click(screen.getByRole('button', { name: 'reset' }));
 
-      expect(fieldsTemp).toEqual([{ id: '4', value: 'default' }]);
+      expect(fieldsTemp).toEqual([{ id: '5', value: 'default' }]);
     });
 
     it('should reset with field array with shouldUnregister set to false', () => {
@@ -1146,7 +1146,7 @@ describe('useFieldArray', () => {
         result.current.reset();
       });
 
-      expect(result.current.fields).toEqual([{ id: '4', value: 'default' }]);
+      expect(result.current.fields).toEqual([{ id: '5', value: 'default' }]);
 
       act(() => {
         result.current.reset({
@@ -1154,7 +1154,7 @@ describe('useFieldArray', () => {
         });
       });
 
-      expect(result.current.fields).toEqual([{ id: '6', value: 'data' }]);
+      expect(result.current.fields).toEqual([{ id: '7', value: 'data' }]);
     });
 
     it('should reset with async', async () => {
@@ -2678,6 +2678,16 @@ describe('useFieldArray', () => {
         ],
       },
       {
+        names: [
+          {
+            name: 'will',
+          },
+          {
+            name: 'Mike',
+          },
+        ],
+      },
+      {
         names: [],
       },
       {
@@ -2753,6 +2763,16 @@ describe('useFieldArray', () => {
 
     // Let's check all values of renders with implicitly the number of render (for each value)
     expect(watchedValues).toEqual([
+      {
+        test: [
+          {
+            value: 'test',
+          },
+          {
+            value: 'test1',
+          },
+        ],
+      },
       {
         test: [
           {
@@ -3929,7 +3949,7 @@ describe('useFieldArray', () => {
       render(<Component />);
 
       fireEvent.click(screen.getByRole('button', { name: /append/i }));
-      await waitFor(() => expect(renderCount).toEqual(2));
+      await waitFor(() => expect(renderCount).toEqual(3));
     });
 
     it('should trigger reRender on components that subscribe to useFieldArray fieldState', async () => {
@@ -3990,8 +4010,8 @@ describe('useFieldArray', () => {
       fireEvent.click(screen.getByRole('button', { name: /append/i }));
 
       await waitFor(() => {
-        expect(rootRenderCount).toEqual(1);
-        expect(observerRenderCount).toEqual(2);
+        expect(rootRenderCount).toEqual(2);
+        expect(observerRenderCount).toEqual(3);
       });
     });
 
@@ -4103,8 +4123,8 @@ describe('useFieldArray', () => {
 
       fireEvent.click(screen.getByRole('button', { name: /append/i }));
 
-      expect(rootRenderCount).toEqual(1);
-      expect(notObserverRenderCount).toEqual(1);
+      expect(rootRenderCount).toEqual(2);
+      expect(notObserverRenderCount).toEqual(2);
     });
   });
 });

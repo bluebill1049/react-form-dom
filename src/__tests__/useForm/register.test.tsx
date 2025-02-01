@@ -512,6 +512,9 @@ describe('register', () => {
       {
         test: 'bill',
       },
+      {
+        test: 'bill',
+      },
       {},
     ]);
   });
@@ -700,6 +703,13 @@ describe('register', () => {
 
       expect(watchedData).toStrictEqual([
         {},
+        {
+          test: '',
+          test1: false,
+          test2: null,
+          test3: '',
+          test4: '',
+        },
         {
           test: '',
           test1: false,
@@ -1510,6 +1520,7 @@ describe('register', () => {
     fireEvent.click(screen.getAllByRole('checkbox')[0]);
 
     expect(watchedValue).toEqual([
+      { test: [true, false, false] },
       { test: [true, false, false] },
       { test: [false, false, false] },
     ]);

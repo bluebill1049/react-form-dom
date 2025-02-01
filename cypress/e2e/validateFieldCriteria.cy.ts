@@ -60,6 +60,6 @@ describe('validate field criteria', () => {
     cy.get('p').should('have.length', 0);
     cy.get('b').should('have.length', 0);
 
-    cy.get('#renderCount').contains('27');
+    cy.get('#renderCount').contains('28');
   });
 });

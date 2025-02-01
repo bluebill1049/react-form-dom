@@ -109,6 +109,7 @@ export function createFormControl<
   let _formState: FormState<TFieldValues> = {
     submitCount: 0,
     isDirty: false,
+    isReady: false,
     isLoading: isFunction(_options.defaultValues),
     isValidating: false,
     isSubmitted: false,

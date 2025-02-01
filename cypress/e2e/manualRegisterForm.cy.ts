@@ -41,6 +41,6 @@ describe('manual register form validation', () => {
     cy.get('input[name="checkbox"]').check();
 
     cy.get('p').should('have.length', 0);
-    cy.get('#renderCount').contains('45');
+    cy.get('#renderCount').contains('46');
   });
 });

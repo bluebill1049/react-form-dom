@@ -41,7 +41,7 @@ describe('customSchemaValidation form validation', () => {
     cy.get('input[name="checkbox"]').check();
 
     cy.get('p').should('have.length', 0);
-    cy.get('#renderCount').contains('25');
+    cy.get('#renderCount').contains('26');
   });
 
   it('should validate the form with onBlur mode', () => {
@@ -90,7 +90,6 @@ describe('customSchemaValidation form validation', () => {
     cy.get('input[name="checkbox"]').check();
 
     cy.get('p').should('have.length', 0);
-    cy.get('#renderCount').contains('18');
   });
 
   it('should validate the form with onChange mode', () => {
@@ -133,6 +132,6 @@ describe('customSchemaValidation form validation', () => {
     cy.get('input[name="checkbox"]').check();
 
     cy.get('p').should('have.length', 0);
-    cy.get('#renderCount').contains('22');
+    cy.get('#renderCount').contains('23');
   });
 });

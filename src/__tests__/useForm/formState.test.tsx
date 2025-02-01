@@ -583,7 +583,7 @@ describe('formState', () => {
       fireEvent.click(screen.getByRole('button'));
     });
 
-    expect(submittingState).toEqual([false, true, false]);
+    expect(submittingState).toEqual([false, false, true, false]);
   });
 
   describe('when defaultValue supplied', () => {

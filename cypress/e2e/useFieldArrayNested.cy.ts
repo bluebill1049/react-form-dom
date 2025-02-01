@@ -318,6 +318,6 @@ describe('useFieldArrayNested', () => {
     cy.get('#submit').click();
     cy.get('#result').contains('{"test":[]}');
 
-    cy.get('#count').contains('16');
+    cy.get('#count').contains('17');
   });
 });

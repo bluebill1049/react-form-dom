@@ -1150,7 +1150,7 @@ describe('setValue', () => {
 
     fireEvent.click(screen.getByRole('button'));
 
-    expect(fieldsValue.length).toEqual(1);
+    expect(fieldsValue.length).toEqual(2);
   });
 
   it('should not register deeply nested inputs', () => {
@@ -1389,6 +1389,10 @@ describe('setValue', () => {
     fireEvent.click(screen.getByRole('button'));
 
     expect(watchedValue).toEqual([
+      {
+        date: new Date('2021-06-15T00:00:00.000Z'),
+        userId: 'abc',
+      },
       {
         date: new Date('2021-06-15T00:00:00.000Z'),
         userId: 'abc',

@@ -22,6 +22,6 @@ describe('form setValue with schema', () => {
     cy.get('input[name="requiredField"]').should('have.value', 'test123456789');
     cy.get('p').should('have.length', 0);
 
-    cy.get('#renderCount').contains('34');
+    cy.get('#renderCount').contains('35');
   });
 });

@@ -69,13 +69,13 @@ describe('replace', () => {
 
     fireEvent.click(screen.getByRole('button', { name: labelSingle }));
 
-    expect(currentFields).toEqual([{ id: '3', x: '201' }]);
+    expect(currentFields).toEqual([{ id: '6', x: '201' }]);
 
     fireEvent.click(screen.getByRole('button', { name: labelBatch }));
 
     expect(currentFields).toEqual([
-      { id: '5', x: '301' },
-      { id: '6', x: '302' },
+      { id: '8', x: '301' },
+      { id: '9', x: '302' },
     ]);
   });
   it('should not omit keyName when provided', async () => {

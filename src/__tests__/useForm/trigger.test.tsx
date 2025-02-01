@@ -897,8 +897,8 @@ describe('trigger', () => {
 
     fireEvent.click(screen.getByRole('button'));
 
-    expect(await screen.findByText('1')).toBeVisible();
-    expect(screen.getByText('1')).toBeVisible();
+    expect(await screen.findByText('2')).toBeVisible();
+    expect(screen.getByText('3')).toBeVisible();
   });
 
   it('should skip additional validation when input validation already failed', async () => {

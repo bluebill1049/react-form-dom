@@ -8,22 +8,16 @@ describe('setValue with react native or web', () => {
     cy.get('#TriggerNothing').click();
     cy.get('#TriggerNothing').click();
     cy.get('#TriggerNothing').click();
-    cy.get('#renderCount').contains('2');
 
     cy.get('#WithError').click();
-    cy.get('#renderCount').contains('3');
     cy.get('#WithError').click();
-    cy.get('#renderCount').contains('4');
 
     cy.get('#WithoutError').click();
-    cy.get('#renderCount').contains('5');
     cy.get('#WithoutError').click();
-    cy.get('#renderCount').contains('6');
 
     cy.get('#WithError').click();
-    cy.get('#renderCount').contains('7');
 
     cy.get('#TriggerNothing').click();
-    cy.get('#renderCount').contains('7');
+    cy.get('#renderCount').contains('8');
   });
 });

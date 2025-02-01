@@ -3,11 +3,11 @@ describe('useWatch', () => {
     cy.visit('http://localhost:3000/useWatch');
     cy.get('input[name="test"]').type('t');
 
-    cy.get('#parentCounter').contains('1');
-    cy.get('#childCounter').contains('1');
-    cy.get('#grandChildCounter').contains('2');
-    cy.get('#grandChild1Counter').contains('2');
-    cy.get('#grandChild2Counter').contains('2');
+    cy.get('#parentCounter').contains('2');
+    cy.get('#childCounter').contains('2');
+    cy.get('#grandChildCounter').contains('3');
+    cy.get('#grandChild1Counter').contains('3');
+    cy.get('#grandChild2Counter').contains('3');
     cy.get('#grandchild01').contains('t');
     cy.get('#grandchild00').contains('t');
 
@@ -21,11 +21,11 @@ describe('useWatch', () => {
     cy.visit('http://localhost:3000/useWatch');
     cy.get('input[name="test1"]').type('h');
 
-    cy.get('#parentCounter').contains('1');
-    cy.get('#childCounter').contains('1');
-    cy.get('#grandChildCounter').contains('2');
-    cy.get('#grandChild1Counter').contains('2');
-    cy.get('#grandChild2Counter').contains('2');
+    cy.get('#parentCounter').contains('2');
+    cy.get('#childCounter').contains('2');
+    cy.get('#grandChildCounter').contains('3');
+    cy.get('#grandChild1Counter').contains('3');
+    cy.get('#grandChild2Counter').contains('3');
 
     cy.get('input[name="test1"]').type('h');
     cy.get('input[name="test"]').type('h');
@@ -39,11 +39,11 @@ describe('useWatch', () => {
     cy.visit('http://localhost:3000/useWatch');
     cy.get('input[name="test2"]').type('e');
 
-    cy.get('#parentCounter').contains('1');
-    cy.get('#childCounter').contains('1');
-    cy.get('#grandChildCounter').contains('2');
-    cy.get('#grandChild1Counter').contains('2');
-    cy.get('#grandChild2Counter').contains('2');
+    cy.get('#parentCounter').contains('2');
+    cy.get('#childCounter').contains('2');
+    cy.get('#grandChildCounter').contains('3');
+    cy.get('#grandChild1Counter').contains('3');
+    cy.get('#grandChild2Counter').contains('3');
 
     cy.get('input[name="test2"]').type('eh');
 

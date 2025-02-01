@@ -148,6 +148,7 @@ export type FormState<TFieldValues extends FieldValues> = {
   touchedFields: Partial<Readonly<FieldNamesMarkedBoolean<TFieldValues>>>;
   validatingFields: Partial<Readonly<FieldNamesMarkedBoolean<TFieldValues>>>;
   errors: FieldErrors<TFieldValues>;
+  isReady: boolean;
 };
 
 export type KeepStateOptions = Partial<{

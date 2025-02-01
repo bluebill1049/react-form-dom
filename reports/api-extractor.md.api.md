@@ -308,6 +308,7 @@ export type FormState<TFieldValues extends FieldValues> = {
     touchedFields: Partial<Readonly<FieldNamesMarkedBoolean<TFieldValues>>>;
     validatingFields: Partial<Readonly<FieldNamesMarkedBoolean<TFieldValues>>>;
     errors: FieldErrors<TFieldValues>;
+    isReady: boolean;
 };
 
 // @public (undocumented)
@@ -888,7 +889,7 @@ export type WatchObserver<TFieldValues extends FieldValues> = (value: DeepPartia
 
 // Warnings were encountered during analysis:
 //
-// src/types/form.ts:464:3 - (ae-forgotten-export) The symbol "Subscription" needs to be exported by the entry point index.d.ts
+// src/types/form.ts:465:3 - (ae-forgotten-export) The symbol "Subscription" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

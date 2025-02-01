@@ -58,11 +58,11 @@ describe('useFormState', () => {
 
     expect(screen.getByText('isDirty')).toBeVisible();
     expect(screen.getByText('dirty field')).toBeVisible();
-    expect(count).toEqual(1);
+    expect(count).toEqual(2);
 
     fireEvent.blur(screen.getByLabelText('test'));
     expect(screen.getByText('isTouched')).toBeVisible();
-    expect(count).toEqual(1);
+    expect(count).toEqual(2);
   });
 
   it('should render correct isolated errors message', async () => {
@@ -116,7 +116,7 @@ describe('useFormState', () => {
     expect(await screen.findByText('valid')).toBeVisible();
     expect(screen.getByText('yes')).toBeVisible();
 
-    expect(count).toEqual(1);
+    expect(count).toEqual(2);
   });
 
   it('should update isValidating correctly', async () => {
@@ -233,16 +233,16 @@ describe('useFormState', () => {
     expect(await screen.findByText('hasDirtyField')).toBeVisible();
     expect(screen.getByText('isDirty')).toBeVisible();
 
-    expect(count).toEqual(1);
-    expect(testCount).toEqual(2);
-    expect(test1Count).toEqual(1);
+    expect(count).toEqual(2);
+    expect(testCount).toEqual(3);
+    expect(test1Count).toEqual(2);
 
     fireEvent.blur(screen.getByLabelText('test'));
     expect(screen.getByText('isTouched')).toBeVisible();
 
-    expect(count).toEqual(1);
-    expect(testCount).toEqual(2);
-    expect(test1Count).toEqual(2);
+    expect(count).toEqual(2);
+    expect(testCount).toEqual(3);
+    expect(test1Count).toEqual(3);
 
     fireEvent.input(screen.getByLabelText('test'), {
       target: {
@@ -250,9 +250,9 @@ describe('useFormState', () => {
       },
     });
 
-    expect(count).toEqual(1);
-    expect(testCount).toEqual(2);
-    expect(test1Count).toEqual(2);
+    expect(count).toEqual(2);
+    expect(testCount).toEqual(3);
+    expect(test1Count).toEqual(3);
   });
 
   it('should render correct submit state', async () => {
@@ -290,7 +290,7 @@ describe('useFormState', () => {
     expect(await screen.findByText('isSubmitted')).toBeVisible();
     expect(screen.getByText('1')).toBeVisible();
 
-    expect(count).toEqual(1);
+    expect(count).toEqual(2);
   });
 
   it('should only re-render when subscribed field name updated', async () => {
@@ -392,7 +392,7 @@ describe('useFormState', () => {
       },
     });
 
-    expect(count).toEqual(1);
+    expect(count).toEqual(2);
   });
 
   it('should only re-render when subscribed field names updated', async () => {
@@ -513,7 +513,7 @@ describe('useFormState', () => {
       },
     });
 
-    expect(count).toEqual(1);
+    expect(count).toEqual(2);
   });
 
   it('should be able to stop the formState subscription', async () => {

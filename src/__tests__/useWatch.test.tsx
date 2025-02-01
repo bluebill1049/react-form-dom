@@ -268,6 +268,7 @@ describe('useWatch', () => {
       { test: 'test' },
       { test: 'test' },
       { test: 'test' },
+      { test: 'test' },
     ]);
   });
 
@@ -534,8 +535,8 @@ describe('useWatch', () => {
         target: { value: 'test' },
       });
 
-      expect(parentCount).toBe(1);
-      expect(childCount).toBe(2);
+      expect(parentCount).toBe(2);
+      expect(childCount).toBe(3);
 
       parentCount = 0;
       childCount = 0;
@@ -612,9 +613,9 @@ describe('useWatch', () => {
         target: { value: 'test' },
       });
 
-      expect(parentCount).toBe(1);
-      expect(childCount).toBe(2);
-      expect(childSecondCount).toBe(1);
+      expect(parentCount).toBe(2);
+      expect(childCount).toBe(3);
+      expect(childSecondCount).toBe(2);
 
       parentCount = 0;
       childCount = 0;
@@ -702,8 +703,8 @@ describe('useWatch', () => {
         },
       });
 
-      expect(parentRenderCount).toEqual(1);
-      expect(childRenderCount).toEqual(4);
+      expect(parentRenderCount).toEqual(2);
+      expect(childRenderCount).toEqual(5);
     });
 
     it("should not re-render external component when field name don't match", async () => {
@@ -929,6 +930,7 @@ describe('useWatch', () => {
         'Number',
         'Totals',
         'Type',
+        'Number',
         'Totals',
         'Type',
         'Totals',

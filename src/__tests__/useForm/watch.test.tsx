@@ -137,7 +137,7 @@ describe('watch', () => {
 
     render(<App />);
 
-    expect(results).toEqual(['default']);
+    expect(results).toEqual(['default', 'default']);
   });
 
   it('should return array of default value for array of inputs', () => {
@@ -157,7 +157,10 @@ describe('watch', () => {
 
     render(<App />);
 
-    expect(results).toEqual([['default', 'test']]);
+    expect(results).toEqual([
+      ['default', 'test'],
+      [undefined, undefined],
+    ]);
   });
 
   it('should watch array of inputs', () => {
@@ -450,7 +453,7 @@ describe('watch', () => {
 
     render(<App />);
 
-    expect(watched).toEqual([{}]);
+    expect(watched).toEqual([{}, { test: '' }]);
 
     fireEvent.change(screen.getByRole('textbox'), {
       target: {
@@ -461,6 +464,9 @@ describe('watch', () => {
     expect(watched).toEqual([
       {},
       {
+        test: '',
+      },
+      {
         test: '1',
       },
     ]);
@@ -469,6 +475,9 @@ describe('watch', () => {
 
     expect(watched).toEqual([
       {},
+      {
+        test: '',
+      },
       {
         test: '1',
       },

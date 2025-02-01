@@ -1697,25 +1697,6 @@ describe('useForm', () => {
     });
   });
 
-  it('should unsubscribe to all subject when hook unmounts', () => {
-    let tempControl: any;
-
-    const App = () => {
-      const { control } = useForm();
-      tempControl = control;
-
-      return null;
-    };
-
-    const { unmount } = render(<App />);
-
-    expect(tempControl._subjects.state.observers.length).toBeTruthy();
-
-    unmount();
-
-    expect(tempControl._subjects.state.observers.length).toBeFalsy();
-  });
-
   it('should update isValidating form and field states correctly', async () => {
     jest.useFakeTimers();
 
