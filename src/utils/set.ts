@@ -21,7 +21,7 @@ export default (
     if (index !== lastIndex) {
       const objValue = object[key];
       newValue =
-        isObject(objValue) || Array.isArray(objValue)
+        isObject(objValue) || Array.isArray(objValue) || (tempPath.length == 1 && typeof key === "string")
           ? objValue
           : !isNaN(+tempPath[index + 1])
             ? []
