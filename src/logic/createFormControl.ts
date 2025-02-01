@@ -1294,13 +1294,14 @@ export function createFormControl<
     formValues,
     keepStateOptions = {},
   ) => {
-    const updatedValues = formValues ? cloneObject(formValues) : _defaultValues;
-    const cloneUpdatedValues = cloneObject(updatedValues);
     const isEmptyResetValues = isEmptyObject(formValues);
-    const values = isEmptyResetValues ? _defaultValues : cloneUpdatedValues;
-
+    const values = isEmptyResetValues
+      ? _defaultValues
+      : formValues
+        ? cloneObject(formValues)
+        : _defaultValues;
     if (!keepStateOptions.keepDefaultValues) {
-      _defaultValues = updatedValues;
+      _defaultValues = values;
     }
 
     if (!keepStateOptions.keepValues) {
