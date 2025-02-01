@@ -50,4 +50,6 @@ export type Field = {
   } & RegisterOptions;
 };
 
-export type FieldRefs = Partial<Record<InternalFieldName, Field>>;
+export type FieldRefs = Partial<{
+  [key: InternalFieldName]: Field | FieldRefs;
+}>;

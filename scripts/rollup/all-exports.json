@@ -3,6 +3,7 @@
   "Form",
   "FormProvider",
   "appendErrors",
+  "createFormControl",
   "get",
   "set",
   "useController",

@@ -1,3 +1,4 @@
 import appendErrors from './appendErrors';
+import { createFormControl } from './createFormControl';
 
-export { appendErrors };
+export { appendErrors, createFormControl };

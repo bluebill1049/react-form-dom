@@ -5,7 +5,8 @@ import isObject from '../utils/isObject';
 const ASYNC_FUNCTION = 'AsyncFunction';
 
 export default (fieldReference: Field['_f']) =>
-  (!fieldReference || !fieldReference.validate) &&
+  !!fieldReference &&
+  !!fieldReference.validate &&
   !!(
     (isFunction(fieldReference.validate) &&
       fieldReference.validate.constructor.name === ASYNC_FUNCTION) ||

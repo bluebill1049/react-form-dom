@@ -5,6 +5,7 @@ describe('isWatched', () => {
     expect(
       isWatched('', {
         mount: new Set(),
+        disabled: new Set(),
         unMount: new Set(),
         array: new Set(),
         watch: new Set(),
@@ -16,6 +17,7 @@ describe('isWatched', () => {
     expect(
       isWatched('test', {
         mount: new Set(),
+        disabled: new Set(),
         unMount: new Set(),
         array: new Set(),
         watch: new Set(['test']),
@@ -29,6 +31,7 @@ describe('isWatched', () => {
     expect(
       isWatched('test.test', {
         mount: new Set(),
+        disabled: new Set(),
         unMount: new Set(),
         array: new Set(),
         watch: new Set(['test']),
@@ -40,6 +43,7 @@ describe('isWatched', () => {
     expect(
       isWatched('test.test.test', {
         mount: new Set(),
+        disabled: new Set(),
         unMount: new Set(),
         array: new Set(),
         watch: new Set(['test.test']),
@@ -51,6 +55,7 @@ describe('isWatched', () => {
     expect(
       isWatched('test.test.test', {
         mount: new Set(),
+        disabled: new Set(),
         unMount: new Set(),
         array: new Set(),
         watch: new Set(['testFail.test', 'test.test']),
@@ -62,6 +67,7 @@ describe('isWatched', () => {
     expect(
       isWatched('test.0', {
         mount: new Set(),
+        disabled: new Set(),
         unMount: new Set(),
         array: new Set(),
         watch: new Set(['test']),
@@ -73,6 +79,7 @@ describe('isWatched', () => {
     expect(
       isWatched('test.0.test', {
         mount: new Set(),
+        disabled: new Set(),
         unMount: new Set(),
         array: new Set(),
         watch: new Set(['test.0']),
@@ -86,6 +93,7 @@ describe('isWatched', () => {
     expect(
       isWatched('test.test.test', {
         mount: new Set(),
+        disabled: new Set(),
         unMount: new Set(),
         array: new Set(),
         watch: new Set(['tesk.test']),
@@ -97,6 +105,7 @@ describe('isWatched', () => {
     expect(
       isWatched('test.test.test', {
         mount: new Set(),
+        disabled: new Set(),
         unMount: new Set(),
         array: new Set(),
         watch: new Set(['testFail.test']),
@@ -112,6 +121,7 @@ describe('isWatched', () => {
         '',
         {
           mount: new Set(),
+          disabled: new Set(),
           unMount: new Set(),
           array: new Set(),
           watch: new Set(),

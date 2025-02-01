@@ -3,7 +3,11 @@ import isNullOrUndefined from './isNullOrUndefined';
 import isObject from './isObject';
 import isUndefined from './isUndefined';
 
-export default <T>(object: T, path?: string, defaultValue?: unknown): any => {
+export default <T>(
+  object: T,
+  path?: string | null,
+  defaultValue?: unknown,
+): any => {
   if (!path || !isObject(object)) {
     return defaultValue;
   }

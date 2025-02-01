@@ -1648,4 +1648,53 @@ describe('Controller', () => {
 
     expect(screen.getByRole('textbox')).toBeEnabled();
   });
+
+  it('should create error object when the value is Invalid Date during onChange event', async () => {
+    let currentErrors: any = {};
+    const name = 'test';
+    const Component = () => {
+      const {
+        control,
+        formState: { errors },
+      } = useForm({ mode: 'onChange' });
+      const [text, setText] = React.useState('');
+      currentErrors = errors;
+
+      return (
+        <form>
+          <Controller
+            defaultValue=""
+            name={name}
+            control={control}
+            render={({ field: { onChange } }) => (
+              <input
+                type="text"
+                value={text}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setText(e.target.value);
+                  const dateValue = new Date(e.target.value);
+                  onChange(dateValue);
+                }}
+              />
+            )}
+            rules={{
+              validate: (v) => !(v instanceof Date && isNaN(v.getTime())),
+            }}
+          />
+        </form>
+      );
+    };
+
+    render(<Component />);
+
+    const input = screen.getByRole('textbox');
+
+    fireEvent.change(input, { target: { value: 'test' } });
+
+    await waitFor(() => expect(currentErrors).toHaveProperty(name));
+
+    fireEvent.change(input, { target: { value: '2024-10-16' } });
+
+    await waitFor(() => expect(currentErrors).not.toHaveProperty(name));
+  });
 });

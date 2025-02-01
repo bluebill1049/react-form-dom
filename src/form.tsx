@@ -84,7 +84,7 @@ function Form<
             encType,
           ].some((value) => value && value.includes('json'));
 
-          const response = await fetch(action, {
+          const response = await fetch(String(action), {
             method,
             headers: {
               ...headers,

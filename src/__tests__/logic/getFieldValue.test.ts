@@ -81,17 +81,4 @@ describe('getFieldValue', () => {
       }),
     ).toEqual(undefined);
   });
-
-  it('should not return value when the input is disabled', () => {
-    expect(
-      getFieldValue({
-        name: 'test',
-        ref: {
-          name: 'radio',
-          disabled: true,
-          type: 'radio',
-        },
-      }),
-    ).toEqual(undefined);
-  });
 });

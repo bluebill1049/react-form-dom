@@ -149,7 +149,7 @@ test('should type errors correctly with Path generic', () => {
     return (
       <>
         <input {...register(name)} />
-        {errors[name] ? errors?.[name]?.message : 'no error'}
+        <p>{errors[name] ? String(errors?.[name]?.message) : 'no error'}</p>
       </>
     );
   }

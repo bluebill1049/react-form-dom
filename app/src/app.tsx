@@ -43,7 +43,7 @@ import FormComponent from './form';
 import DisabledFields from './disabledFields';
 import ResetKeepDirty from './resetKeepDirty';
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <BrowserRouter>
       <Routes>

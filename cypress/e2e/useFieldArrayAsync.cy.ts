@@ -36,10 +36,10 @@ describe('useFieldArray', () => {
 
     cy.get('#replaceAsync').click();
 
-    cy.get('#field0').should('have.value', '16. lorem');
-    cy.get('#field1').should('have.value', '16. ipsum');
-    cy.get('#field2').should('have.value', '16. dolor');
-    cy.get('#field3').should('have.value', '16. sit amet');
+    cy.get('#field0').should('have.value', '11. lorem');
+    cy.get('#field1').should('have.value', '11. ipsum');
+    cy.get('#field2').should('have.value', '11. dolor');
+    cy.get('#field3').should('have.value', '11. sit amet');
 
     cy.get('#removeAsync').click();
 

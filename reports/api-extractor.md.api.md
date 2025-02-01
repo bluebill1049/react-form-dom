@@ -49,40 +49,33 @@ export type Control<TFieldValues extends FieldValues = FieldValues, TContext = a
     _getDirty: GetIsDirty;
     _resetDefaultValues: Noop;
     _formState: FormState<TFieldValues>;
-    _updateValid: (shouldUpdateValid?: boolean) => void;
-    _updateFormState: (formState: Partial<FormState<TFieldValues>>) => void;
+    _setValid: (shouldUpdateValid?: boolean) => void;
     _fields: FieldRefs;
     _formValues: FieldValues;
     _proxyFormState: ReadFormState;
     _defaultValues: Partial<DefaultValues<TFieldValues>>;
     _getWatch: WatchInternal<TFieldValues>;
-    _updateFieldArray: BatchFieldArrayUpdate;
+    _setFieldArray: BatchFieldArrayUpdate;
     _getFieldArray: <TFieldArrayValues>(name: InternalFieldName) => Partial<TFieldArrayValues>[];
     _setErrors: (errors: FieldErrors<TFieldValues>) => void;
-    _updateDisabledField: (props: {
+    _setDisabledField: (props: {
         disabled?: boolean;
         name: FieldName<any>;
-        value?: unknown;
-    } & ({
-        field?: Field;
-        fields?: undefined;
-    } | {
-        field?: undefined;
-        fields?: FieldRefs;
-    })) => void;
-    _executeSchema: (names: InternalFieldName[]) => Promise<{
+    }) => void;
+    _runSchema: (names: InternalFieldName[]) => Promise<{
         errors: FieldErrors;
     }>;
+    _disableForm: (disabled?: boolean) => void;
+    _subscribe: FromSubscribe<TFieldValues>;
     register: UseFormRegister<TFieldValues>;
     handleSubmit: UseFormHandleSubmit<TFieldValues>;
-    _disableForm: (disabled?: boolean) => void;
     unregister: UseFormUnregister<TFieldValues>;
     getFieldState: UseFormGetFieldState<TFieldValues>;
     setError: UseFormSetError<TFieldValues>;
 };
 
 // @public
-export const Controller: <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: ControllerProps<TFieldValues, TName>) => ReactElement<any, string | JSXElementConstructor<any>>;
+export const Controller: <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: ControllerProps<TFieldValues, TName>) => ReactElement<unknown, string | JSXElementConstructor<any>>;
 
 // @public (undocumented)
 export type ControllerFieldState = {
@@ -110,6 +103,11 @@ export type ControllerRenderProps<TFieldValues extends FieldValues = FieldValues
     disabled?: boolean;
     name: TName;
     ref: RefCallBack;
+};
+
+// @public (undocumented)
+export function createFormControl<TFieldValues extends FieldValues = FieldValues, TContext = any>(props?: UseFormProps<TFieldValues, TContext>): Omit<UseFormReturn<TFieldValues, TContext>, 'formState'> & {
+    formControl: Omit<UseFormReturn<TFieldValues, TContext>, 'formState'>;
 };
 
 // @public (undocumented)
@@ -249,7 +247,9 @@ export type FieldPathValues<TFieldValues extends FieldValues, TPath extends Fiel
 };
 
 // @public (undocumented)
-export type FieldRefs = Partial<Record<InternalFieldName, Field>>;
+export type FieldRefs = Partial<{
+    [key: InternalFieldName]: Field | FieldRefs;
+}>;
 
 // @public (undocumented)
 export type FieldValue<TFieldValues extends FieldValues> = TFieldValues[InternalFieldName];
@@ -326,6 +326,8 @@ export type FormStateProxy<TFieldValues extends FieldValues = FieldValues> = {
 // @public (undocumented)
 export type FormStateSubjectRef<TFieldValues extends FieldValues> = Subject<Partial<FormState<TFieldValues>> & {
     name?: InternalFieldName;
+    values?: TFieldValues;
+    type?: EventType;
 }>;
 
 // @public (undocumented)
@@ -338,7 +340,18 @@ export type FormSubmitHandler<TFieldValues extends FieldValues> = (payload: {
 }) => unknown | Promise<unknown>;
 
 // @public (undocumented)
-export const get: <T>(object: T, path?: string, defaultValue?: unknown) => any;
+export type FromSubscribe<TFieldValues extends FieldValues> = (payload: {
+    name?: string;
+    formState?: Partial<ReadFormState>;
+    callback: (data: Partial<FormState<TFieldValues>> & {
+        values: TFieldValues;
+    }) => void;
+    exact?: boolean;
+    reRenderRoot?: boolean;
+}) => () => void;
+
+// @public (undocumented)
+export const get: <T>(object: T, path?: string | null, defaultValue?: unknown) => any;
 
 // @public (undocumented)
 export type GetIsDirty = <TName extends InternalFieldName, TData>(name?: TName, data?: TData) => boolean;
@@ -423,6 +436,7 @@ export type MultipleFieldErrors = {
 export type Names = {
     mount: InternalNameSet;
     unMount: InternalNameSet;
+    disabled: InternalNameSet;
     array: InternalNameSet;
     watch: InternalNameSet;
     focus?: InternalFieldName;
@@ -456,10 +470,10 @@ export type Path<T> = T extends any ? PathInternal<T> : never;
 // @public
 export type PathString = string;
 
-// Warning: (ae-forgotten-export) The symbol "ArrayKey" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "PathValueImpl" needs to be exported by the entry point index.d.ts
 //
 // @public
-export type PathValue<T, P extends Path<T> | ArrayPath<T>> = T extends any ? P extends `${infer K}.${infer R}` ? K extends keyof T ? R extends Path<T[K]> ? PathValue<T[K], R> : never : K extends `${ArrayKey}` ? T extends ReadonlyArray<infer V> ? PathValue<V, R & Path<V>> : never : never : P extends keyof T ? T[P] : P extends `${ArrayKey}` ? T extends ReadonlyArray<infer V> ? V : never : never : never;
+export type PathValue<T, P extends Path<T> | ArrayPath<T>> = PathValueImpl<T, P>;
 
 // @public (undocumented)
 export type Primitive = null | undefined | string | number | boolean | symbol | bigint;
@@ -467,6 +481,8 @@ export type Primitive = null | undefined | string | number | boolean | symbol | 
 // @public (undocumented)
 export type ReadFormState = {
     [K in keyof FormStateProxy]: boolean | 'all';
+} & {
+    values?: boolean;
 };
 
 // @public (undocumented)
@@ -535,7 +551,7 @@ export type ResolverSuccess<TFieldValues extends FieldValues = FieldValues> = {
 };
 
 // @public (undocumented)
-export const set: (object: FieldValues, path: FieldPath<FieldValues>, value?: unknown) => FieldValues | undefined;
+export const set: (object: FieldValues, path: FieldPath<FieldValues>, value?: unknown) => void;
 
 // @public (undocumented)
 export type SetFieldValue<TFieldValues extends FieldValues> = FieldValue<TFieldValues>;
@@ -554,11 +570,6 @@ export type SetValueConfig = Partial<{
 
 // @public (undocumented)
 export type Subjects<TFieldValues extends FieldValues = FieldValues> = {
-    values: Subject<{
-        name?: InternalFieldName;
-        type?: EventType;
-        values: FieldValues;
-    }>;
     array: Subject<{
         name?: InternalFieldName;
         values?: FieldValues;
@@ -576,11 +587,6 @@ export type SubmitHandler<TFieldValues extends FieldValues> = (data: TFieldValue
 export type TriggerConfig = Partial<{
     shouldFocus: boolean;
 }>;
-
-// @public @deprecated (undocumented)
-export type UnpackNestedValue<T> = T extends NestedValue<infer U> ? U : T extends Date | FileList | File | Blob ? T : T extends object ? {
-    [K in keyof T]: UnpackNestedValue<T[K]>;
-} : T;
 
 // @public
 export function useController<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: UseControllerProps<TFieldValues, TName>): UseControllerReturn<TFieldValues, TName>;
@@ -698,6 +704,7 @@ export type UseFormProps<TFieldValues extends FieldValues = FieldValues, TContex
     progressive: boolean;
     criteriaMode: CriteriaMode;
     delayError: number;
+    formControl?: Omit<UseFormReturn<TFieldValues, TContext>, 'formState'>;
 }>;
 
 // @public
@@ -748,6 +755,7 @@ export type UseFormReturn<TFieldValues extends FieldValues = FieldValues, TConte
     control: Control<TFieldValues, TContext>;
     register: UseFormRegister<TFieldValues>;
     setFocus: UseFormSetFocus<TFieldValues>;
+    subscribe: UseFromSubscribe<TFieldValues>;
 };
 
 // @public
@@ -792,6 +800,16 @@ export type UseFormWatch<TFieldValues extends FieldValues> = {
     <TFieldName extends FieldPath<TFieldValues>>(name: TFieldName, defaultValue?: FieldPathValue<TFieldValues, TFieldName>): FieldPathValue<TFieldValues, TFieldName>;
     (callback: WatchObserver<TFieldValues>, defaultValues?: DeepPartial<TFieldValues>): Subscription;
 };
+
+// @public
+export type UseFromSubscribe<TFieldValues extends FieldValues> = (payload: {
+    name?: string;
+    formState?: Partial<ReadFormState>;
+    callback: (data: Partial<FormState<TFieldValues>> & {
+        values: TFieldValues;
+    }) => void;
+    exact?: boolean;
+}) => () => void;
 
 // @public
 export function useWatch<TFieldValues extends FieldValues = FieldValues>(props: {
@@ -875,7 +893,7 @@ export type WatchObserver<TFieldValues extends FieldValues> = (value: DeepPartia
 
 // Warnings were encountered during analysis:
 //
-// src/types/form.ts:445:3 - (ae-forgotten-export) The symbol "Subscription" needs to be exported by the entry point index.d.ts
+// src/types/form.ts:464:3 - (ae-forgotten-export) The symbol "Subscription" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

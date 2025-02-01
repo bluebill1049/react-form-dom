@@ -66,6 +66,15 @@ function App() {
 
 Thanks go to these kind and lovely sponsors!
 
+<a target="_blank" href='https://workleap.com/'>
+    <img width="94" src="https://images.opencollective.com/workleap/db82f38/logo/256.png?height=256" />
+</a>
+<a target="_blank" href='https://www.sgkb.ch/'>
+    <img width="94" src="https://images.opencollective.com/st-galler-kantonalbank-ag/bfdd17f/logo/256.png?height=256" />
+</a>
+<a target="_blank" href='https://www.sanity.io/'>
+    <img width="94" src="https://images.opencollective.com/sanity_io/558f87f/logo/256.png?height=256" />
+</a>
 <a target="_blank" href='https://route4me.com/'>
     <img width="94" src="https://images.opencollective.com/route4me/71fb6fa/avatar/256.png?height=256" />
 </a>

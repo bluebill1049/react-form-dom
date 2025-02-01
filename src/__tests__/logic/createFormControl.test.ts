@@ -19,7 +19,7 @@ describe('createFormControl', () => {
 
     register('foo', {});
 
-    await control._updateValid(true);
+    await control._setValid(true);
 
     expect(isEmptyObject).toHaveBeenCalledTimes(1);
   });
@@ -35,7 +35,7 @@ describe('createFormControl', () => {
 
     register('foo.bar', {});
 
-    await control._updateValid(true);
+    await control._setValid(true);
 
     expect(isEmptyObject).toHaveBeenCalledTimes(2);
   });
@@ -58,7 +58,7 @@ describe('createFormControl', () => {
 
     register('foo.1.bar', {});
 
-    await control._updateValid(true);
+    await control._setValid(true);
 
     expect(isEmptyObject).toHaveBeenCalledTimes(3);
   });

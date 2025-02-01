@@ -49,17 +49,16 @@ export type Control<TFieldValues extends FieldValues = FieldValues, TContext = a
     _getDirty: GetIsDirty;
     _resetDefaultValues: Noop;
     _formState: FormState<TFieldValues>;
-    _updateValid: (shouldUpdateValid?: boolean) => void;
-    _updateFormState: (formState: Partial<FormState<TFieldValues>>) => void;
+    _setValid: (shouldUpdateValid?: boolean) => void;
     _fields: FieldRefs;
     _formValues: FieldValues;
     _proxyFormState: ReadFormState;
     _defaultValues: Partial<DefaultValues<TFieldValues>>;
     _getWatch: WatchInternal<TFieldValues>;
-    _updateFieldArray: BatchFieldArrayUpdate;
+    _setFieldArray: BatchFieldArrayUpdate;
     _getFieldArray: <TFieldArrayValues>(name: InternalFieldName) => Partial<TFieldArrayValues>[];
     _setErrors: (errors: FieldErrors<TFieldValues>) => void;
-    _updateDisabledField: (props: {
+    _setDisabledField: (props: {
         disabled?: boolean;
         name: FieldName<any>;
         value?: unknown;
@@ -70,12 +69,13 @@ export type Control<TFieldValues extends FieldValues = FieldValues, TContext = a
         field?: undefined;
         fields?: FieldRefs;
     })) => void;
-    _executeSchema: (names: InternalFieldName[]) => Promise<{
+    _runSchema: (names: InternalFieldName[]) => Promise<{
         errors: FieldErrors;
     }>;
+    _disableForm: (disabled?: boolean) => void;
+    _subscribe: FromSubscribe<TFieldValues>;
     register: UseFormRegister<TFieldValues>;
     handleSubmit: UseFormHandleSubmit<TFieldValues>;
-    _disableForm: (disabled?: boolean) => void;
     unregister: UseFormUnregister<TFieldValues>;
     getFieldState: UseFormGetFieldState<TFieldValues>;
     setError: UseFormSetError<TFieldValues>;
@@ -113,6 +113,9 @@ export type ControllerRenderProps<TFieldValues extends FieldValues = FieldValues
 };
 
 // @public (undocumented)
+export function createFormControl<TFieldValues extends FieldValues = FieldValues, TContext = any>(props?: UseFormProps<TFieldValues, TContext>): Omit<UseFormReturn<TFieldValues, TContext>, 'formState'>;
+
+// @public (undocumented)
 export type CriteriaMode = 'firstError' | 'all';
 
 // @public (undocumented)
@@ -128,17 +131,17 @@ export type CustomElement<TFieldValues extends FieldValues> = Partial<HTMLElemen
 };
 
 // @public (undocumented)
-export type DeepMap<T, TValue> = IsAny<T> extends true ? any : T extends BrowserNativeObject | NestedValue ? TValue : T extends object ? {
+export type DeepMap<T, TValue> = IsAny<T> extends true ? any : T extends BrowserNativeObject ? TValue : T extends object ? {
     [K in keyof T]: DeepMap<NonUndefined<T[K]>, TValue>;
 } : TValue;
 
 // @public (undocumented)
-export type DeepPartial<T> = T extends BrowserNativeObject | NestedValue ? T : {
+export type DeepPartial<T> = T extends BrowserNativeObject ? T : {
     [K in keyof T]?: ExtractObjects<T[K]> extends never ? T[K] : DeepPartial<T[K]>;
 };
 
 // @public (undocumented)
-export type DeepPartialSkipArrayKey<T> = T extends BrowserNativeObject | NestedValue ? T : T extends ReadonlyArray<any> ? {
+export type DeepPartialSkipArrayKey<T> = T extends BrowserNativeObject ? T : T extends ReadonlyArray<any> ? {
     [K in keyof T]: DeepPartialSkipArrayKey<T[K]>;
 } : {
     [K in keyof T]?: DeepPartialSkipArrayKey<T[K]>;
@@ -326,6 +329,8 @@ export type FormStateProxy<TFieldValues extends FieldValues = FieldValues> = {
 // @public (undocumented)
 export type FormStateSubjectRef<TFieldValues extends FieldValues> = Subject<Partial<FormState<TFieldValues>> & {
     name?: InternalFieldName;
+    values?: TFieldValues;
+    type?: EventType;
 }>;
 
 // @public (undocumented)
@@ -336,6 +341,17 @@ export type FormSubmitHandler<TFieldValues extends FieldValues> = (payload: {
     formDataJson: string;
     method?: 'post' | 'put' | 'delete';
 }) => unknown | Promise<unknown>;
+
+// @public (undocumented)
+export type FromSubscribe<TFieldValues extends FieldValues> = (payload: {
+    name?: string;
+    formState?: Partial<ReadFormState>;
+    callback: (data: Partial<FormState<TFieldValues>> & {
+        values: TFieldValues;
+    }) => void;
+    exact?: boolean;
+    reRenderRoot?: boolean;
+}) => () => void;
 
 // @public (undocumented)
 export const get: <T>(object: T, path?: string, defaultValue?: unknown) => any;
@@ -370,7 +386,7 @@ export type IsAny<T> = 0 extends 1 & T ? true : false;
 export type IsEqual<T1, T2> = T1 extends T2 ? (<G>() => G extends T1 ? 1 : 2) extends <G>() => G extends T2 ? 1 : 2 ? true : false : false;
 
 // @public (undocumented)
-export type IsFlatObject<T extends object> = Extract<Exclude<T[keyof T], NestedValue | Date | FileList_2>, any[] | object> extends never ? true : false;
+export type IsFlatObject<T extends object> = Extract<Exclude<T[keyof T], Date | FileList_2>, any[] | object> extends never ? true : false;
 
 // @public
 export type IsNever<T> = [T] extends [never] ? true : false;
@@ -432,11 +448,6 @@ export type Names = {
 // @public (undocumented)
 export type NativeFieldValue = string | number | boolean | null | undefined | unknown[];
 
-// @public @deprecated (undocumented)
-export type NestedValue<TValue extends object = object> = {
-    [$NestedValue]: never;
-} & TValue;
-
 // @public (undocumented)
 export type NonUndefined<T> = T extends undefined ? never : T;
 
@@ -462,6 +473,8 @@ export type Primitive = null | undefined | string | number | boolean | symbol | 
 // @public (undocumented)
 export type ReadFormState = {
     [K in keyof FormStateProxy]: boolean | 'all';
+} & {
+    values?: boolean;
 };
 
 // @public (undocumented)
@@ -549,11 +562,6 @@ export type SetValueConfig = Partial<{
 
 // @public (undocumented)
 export type Subjects<TFieldValues extends FieldValues = FieldValues> = {
-    values: Subject<{
-        name?: InternalFieldName;
-        type?: EventType;
-        values: FieldValues;
-    }>;
     array: Subject<{
         name?: InternalFieldName;
         values?: FieldValues;
@@ -571,11 +579,6 @@ export type SubmitHandler<TFieldValues extends FieldValues> = (data: TFieldValue
 export type TriggerConfig = Partial<{
     shouldFocus: boolean;
 }>;
-
-// @public @deprecated (undocumented)
-export type UnpackNestedValue<T> = T extends NestedValue<infer U> ? U : T extends Date | FileList | File | Blob ? T : T extends object ? {
-    [K in keyof T]: UnpackNestedValue<T[K]>;
-} : T;
 
 // @public
 export function useController<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: UseControllerProps<TFieldValues, TName>): UseControllerReturn<TFieldValues, TName>;
@@ -693,6 +696,7 @@ export type UseFormProps<TFieldValues extends FieldValues = FieldValues, TContex
     progressive: boolean;
     criteriaMode: CriteriaMode;
     delayError: number;
+    control?: Omit<UseFormReturn<TFieldValues, TContext>, 'formState'>;
 }>;
 
 // @public
@@ -743,6 +747,7 @@ export type UseFormReturn<TFieldValues extends FieldValues = FieldValues, TConte
     control: Control<TFieldValues, TContext>;
     register: UseFormRegister<TFieldValues>;
     setFocus: UseFormSetFocus<TFieldValues>;
+    subscribe: UseFromSubscribe<TFieldValues>;
 };
 
 // @public
@@ -787,6 +792,16 @@ export type UseFormWatch<TFieldValues extends FieldValues> = {
     <TFieldName extends FieldPath<TFieldValues>>(name: TFieldName, defaultValue?: FieldPathValue<TFieldValues, TFieldName>): FieldPathValue<TFieldValues, TFieldName>;
     (callback: WatchObserver<TFieldValues>, defaultValues?: DeepPartial<TFieldValues>): Subscription;
 };
+
+// @public
+export type UseFromSubscribe<TFieldValues extends FieldValues> = (payload: {
+    name?: string;
+    formState?: Partial<ReadFormState>;
+    callback: (data: Partial<FormState<TFieldValues>> & {
+        values: TFieldValues;
+    }) => void;
+    exact?: boolean;
+}) => () => void;
 
 // @public
 export function useWatch<TFieldValues extends FieldValues = FieldValues>(props: {
@@ -870,7 +885,7 @@ export type WatchObserver<TFieldValues extends FieldValues> = (value: DeepPartia
 
 // Warnings were encountered during analysis:
 //
-// src/types/form.ts:444:3 - (ae-forgotten-export) The symbol "Subscription" needs to be exported by the entry point index.d.ts
+// src/types/form.ts:456:3 - (ae-forgotten-export) The symbol "Subscription" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

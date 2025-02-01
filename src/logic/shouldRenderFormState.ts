@@ -1,6 +1,5 @@
 import { VALIDATION_MODE } from '../constants';
 import {
-  Control,
   FieldValues,
   FormState,
   InternalFieldName,
@@ -9,9 +8,12 @@ import {
 import isEmptyObject from '../utils/isEmptyObject';
 
 export default <T extends FieldValues, K extends ReadFormState>(
-  formStateData: Partial<FormState<T>> & { name?: InternalFieldName },
+  formStateData: Partial<FormState<T>> & {
+    name?: InternalFieldName;
+    values?: T;
+  },
   _proxyFormState: K,
-  updateFormState: Control<T>['_updateFormState'],
+  updateFormState: (formState: Partial<FormState<T>>) => void,
   isRoot?: boolean,
 ) => {
   updateFormState(formStateData);

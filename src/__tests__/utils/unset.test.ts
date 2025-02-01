@@ -296,25 +296,23 @@ describe('unset', () => {
 
   describe('when there are remaining props', () => {
     it('should not unset the array', () => {
-      const test = {
+      const test: Record<string, any> = {
         test: [{ firstName: 'test' }],
       };
 
-      // @ts-expect-error
       test.test.root = {
         test: 'message',
       };
 
       unset(test, 'test.0.firstName');
 
-      // @ts-expect-error
       expect(test.test.root).toBeDefined();
     });
   });
 
   describe('in presence of Array polyfills', () => {
     beforeAll(() => {
-      // @ts-expect-error
+      // @ts-expect-error we want to test unset in presence of polyfills
       Array.prototype.somePolyfill = () => 123;
     });
 
@@ -328,7 +326,7 @@ describe('unset', () => {
     });
 
     afterAll(() => {
-      // @ts-expect-error
+      // @ts-expect-error we want to test unset in presence of polyfills
       delete Array.prototype.somePolyfill;
     });
   });

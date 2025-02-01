@@ -231,7 +231,7 @@ describe('formState', () => {
   it('should be a proxy object that returns undefined for unknown properties', () => {
     const { result } = renderHook(() => useForm());
 
-    // @ts-expect-error
+    // @ts-expect-error it's expected for an undefined property to be a typescript error
     expect(result.current.formState.nonExistentProperty).toBeUndefined();
   });
 

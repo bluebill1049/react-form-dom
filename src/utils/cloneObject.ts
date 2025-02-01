@@ -5,13 +5,15 @@ import isWeb from './isWeb';
 export default function cloneObject<T>(data: T): T {
   let copy: any;
   const isArray = Array.isArray(data);
+  const isFileListInstance =
+    typeof FileList !== 'undefined' ? data instanceof FileList : false;
 
   if (data instanceof Date) {
     copy = new Date(data);
   } else if (data instanceof Set) {
     copy = new Set(data);
   } else if (
-    !(isWeb && (data instanceof Blob || data instanceof FileList)) &&
+    !(isWeb && (data instanceof Blob || isFileListInstance)) &&
     (isArray || isObject(data))
   ) {
     copy = isArray ? [] : {};

@@ -34,7 +34,6 @@ describe('get', () => {
     };
     expect(get(test, '')).toEqual(undefined);
     expect(get(test, undefined)).toEqual(undefined);
-    // @ts-expect-error
     expect(get(test, null)).toEqual(undefined);
   });
 });

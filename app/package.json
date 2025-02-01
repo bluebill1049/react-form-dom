@@ -9,24 +9,24 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@hookform/resolvers": "3.9.0",
-    "@mui/material": "^5.16.0",
+    "@mui/material": "^5.16.13",
     "joi": "^17.13.3",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-hook-form": "file:..",
-    "react-router-dom": "^6.24.1",
-    "react-select": "^5.8.0",
-    "yup": "^1.4.0"
+    "react-router-dom": "^6.28.1",
+    "react-select": "^5.9.0",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
-    "@types/react": "^17.0.38",
-    "@types/react-dom": "^17.0.9",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
     "@types/yup": "^0.29.14",
-    "@vitejs/plugin-react": "^4.3.1",
-    "typescript": "^5.5.3",
-    "vite": "^5.3.3"
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11"
   }
 }

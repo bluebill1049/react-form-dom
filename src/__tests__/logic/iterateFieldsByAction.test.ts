@@ -89,7 +89,7 @@ describe('iterateFieldsByAction', () => {
         },
       },
       (ref) => {
-        // @ts-ignore
+        // @ts-expect-error we want to test with what focus was called
         ref.focus && ref.focus(ref.name);
         return 1;
       },
@@ -103,7 +103,6 @@ describe('iterateFieldsByAction', () => {
     iterateFieldsByAction(
       {
         test: {
-          // @ts-ignore
           name: {
             first: {
               _f: {
@@ -128,7 +127,7 @@ describe('iterateFieldsByAction', () => {
       },
       (ref, key) => {
         if (key === 'name.last') {
-          // @ts-ignore
+          // @ts-expect-error we want to test with what focus was called
           ref.focus && ref.focus(ref.name);
           return 1;
         }
@@ -145,7 +144,6 @@ describe('iterateFieldsByAction', () => {
     iterateFieldsByAction(
       {
         personal: {
-          // @ts-ignore
           name: {
             first: {
               _f: {
@@ -189,7 +187,7 @@ describe('iterateFieldsByAction', () => {
         },
       },
       (ref, key) => {
-        // @ts-ignore
+        // @ts-expect-error we want to test with what focus was called
         ref.focus && ref.focus(ref.name);
         return key === 'name.last' ? 1 : undefined;
       },

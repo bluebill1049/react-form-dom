@@ -25,7 +25,7 @@ const iterateFieldsByAction = (
           }
         }
       } else if (isObject(currentField)) {
-        if (iterateFieldsByAction(currentField, action)) {
+        if (iterateFieldsByAction(currentField as FieldRefs, action)) {
           break;
         }
       }

@@ -278,7 +278,7 @@ describe('form state', () => {
         isValid: true,
       }),
     );
-    cy.get('#renderCount').contains('14');
+    cy.get('#renderCount').contains('15');
   });
 
   it('should reset dirty value when inputs reset back to default with onSubmit mode', () => {
@@ -496,7 +496,7 @@ describe('form state', () => {
         isValid: false,
       }),
     );
-    cy.get('#renderCount').contains('8');
+    cy.get('#renderCount').contains('9');
   });
 
   it('should reset dirty value when inputs reset back to default with onChange mode', () => {

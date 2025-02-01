@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect } from 'react';
 import {
   act,
   fireEvent,
@@ -553,34 +553,53 @@ describe('watch', () => {
     screen.getByText('bill');
   });
 
-  it('should update watch value with memo', () => {
+  it('should call the callback on every append', () => {
+    interface FormValues {
+      names: {
+        firstName: string;
+      }[];
+    }
+    const mockedFn = jest.fn();
+
     function App() {
-      const { register, watch } = useForm({
-        defaultValues: {
-          firstName: '',
-        },
+      const { watch, control } = useForm<FormValues>({
+        defaultValues: { names: [] },
       });
 
-      const firstName = useMemo(() => {
-        return watch('firstName');
+      const { fields, append } = useFieldArray({
+        control,
+        name: 'names',
+      });
+
+      useEffect(() => {
+        const subscription = watch((_value, { name }) => {
+          mockedFn(name, _value);
+        });
+
+        return () => {
+          subscription.unsubscribe();
+        };
       }, [watch]);
+
+      const addItem = (index: number) => {
+        append({ firstName: '' }, { focusName: `names.${index}.firstName` });
+      };
 
       return (
         <form>
-          <p>{firstName}</p>
-          <input {...register('firstName')} />
+          <button type="button" onClick={() => addItem(fields.length)}>
+            append
+          </button>
         </form>
       );
     }
 
     render(<App />);
 
-    fireEvent.change(screen.getByRole('textbox'), {
-      target: {
-        value: 'bill',
-      },
-    });
+    fireEvent.click(screen.getByRole('button'));
+    expect(mockedFn).toHaveBeenCalledTimes(2);
 
-    screen.getByText('bill');
+    fireEvent.click(screen.getByRole('button'));
+    expect(mockedFn).toHaveBeenCalledTimes(4);
   });
 });

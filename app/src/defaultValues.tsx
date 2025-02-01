@@ -1,5 +1,5 @@
 import React from 'react';
-import { NestedValue, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 function DefaultValues() {
   const { register } = useForm<{
@@ -11,7 +11,7 @@ function DefaultValues() {
         nest: string;
       };
     };
-    checkbox: NestedValue<string[]>;
+    checkbox: string[];
   }>({
     defaultValues: {
       test: 'test',

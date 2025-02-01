@@ -78,9 +78,7 @@ describe('setValue', () => {
 
     result.current.register('test');
 
-    // @ts-expect-error
-    const blob = new Blob([''], { type: 'image/png', lastModified: 1 });
-    const file = blob as File;
+    const file = new File([''], '', { type: 'image/png', lastModified: 1 });
     const fileList = {
       0: file,
       1: file,

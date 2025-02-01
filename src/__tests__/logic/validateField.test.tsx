@@ -25,6 +25,7 @@ describe('validateField', () => {
             required: true,
           },
         },
+        new Set(),
         {
           test: '',
         },
@@ -51,8 +52,8 @@ describe('validateField', () => {
             valueAsNumber: true,
           },
         },
-        // @ts-expect-error
-        NaN,
+        new Set(),
+        {},
         false,
       ),
     ).toEqual({
@@ -73,6 +74,7 @@ describe('validateField', () => {
             required: 'required',
           },
         },
+        new Set(),
         {
           test: '',
         },
@@ -97,6 +99,7 @@ describe('validateField', () => {
             required: 'required',
           },
         },
+        new Set(),
         {
           test: 2,
         },
@@ -114,6 +117,7 @@ describe('validateField', () => {
             required: 'required',
           },
         },
+        new Set(),
         {
           test: '',
         },
@@ -140,6 +144,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: '',
         },
@@ -166,6 +171,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: '',
         },
@@ -192,6 +198,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: '',
         },
@@ -209,6 +216,7 @@ describe('validateField', () => {
             required: true,
           },
         },
+        new Set(),
         {
           test: false,
         },
@@ -232,6 +240,7 @@ describe('validateField', () => {
             required: 'test',
           },
         },
+        new Set(),
         {
           test: '',
         },
@@ -255,6 +264,7 @@ describe('validateField', () => {
             required: 'test',
           },
         },
+        new Set(),
         {
           test: '',
         },
@@ -278,6 +288,7 @@ describe('validateField', () => {
             required: 'test',
           },
         },
+        new Set(),
         {
           test: false,
         },
@@ -302,6 +313,7 @@ describe('validateField', () => {
             value: '0',
           },
         },
+        new Set(),
         {
           test: '0',
         },
@@ -324,6 +336,7 @@ describe('validateField', () => {
             required: 'test',
           },
         },
+        new Set(),
         {
           test: '',
         },
@@ -343,6 +356,7 @@ describe('validateField', () => {
             value: NaN,
           },
         },
+        new Set(),
         {
           test: '',
         },
@@ -370,6 +384,7 @@ describe('validateField', () => {
             value: {},
           },
         },
+        new Set(),
         {
           test: '',
         },
@@ -401,6 +416,7 @@ describe('validateField', () => {
             max: 0,
           },
         },
+        new Set(),
         {
           test: 10,
         },
@@ -429,6 +445,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: 10,
         },
@@ -457,6 +474,7 @@ describe('validateField', () => {
             value: 10,
           },
         },
+        new Set(),
         {
           test: 10,
         },
@@ -482,6 +500,7 @@ describe('validateField', () => {
             max: 8,
           },
         },
+        new Set(),
         {
           test: 8,
         },
@@ -500,6 +519,7 @@ describe('validateField', () => {
             max: 8,
           },
         },
+        new Set(),
         {
           test: 10,
         },
@@ -527,6 +547,7 @@ describe('validateField', () => {
             required: true,
           },
         },
+        new Set(),
         {
           test: '',
         },
@@ -555,6 +576,7 @@ describe('validateField', () => {
             required: true,
           },
         },
+        new Set(),
         {
           test: undefined,
         },
@@ -588,6 +610,7 @@ describe('validateField', () => {
             required: true,
           },
         },
+        new Set(),
         {
           test: null,
         },
@@ -612,6 +635,7 @@ describe('validateField', () => {
             value: 'ok',
           },
         },
+        new Set(),
         {
           test: 'ok',
         },
@@ -634,6 +658,7 @@ describe('validateField', () => {
             max: '2019-1-12',
           },
         },
+        new Set(),
         {
           test: '2019-2-13',
         },
@@ -668,6 +693,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: '2022-W18',
         },
@@ -702,6 +728,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: '14:00',
         },
@@ -732,6 +759,7 @@ describe('validateField', () => {
             min: 0,
           },
         },
+        new Set(),
         {
           test: -1,
         },
@@ -760,6 +788,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: -1,
         },
@@ -788,6 +817,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: -1,
         },
@@ -813,6 +843,7 @@ describe('validateField', () => {
             min: 12,
           },
         },
+        new Set(),
         {
           test: 10,
         },
@@ -842,6 +873,7 @@ describe('validateField', () => {
             min: '2019-3-12',
           },
         },
+        new Set(),
         {
           test: '2019-2-12',
         },
@@ -877,6 +909,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: '2019-2-12',
         },
@@ -912,6 +945,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: '2019-2-12',
         },
@@ -947,6 +981,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: '2022-W15',
         },
@@ -981,6 +1016,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: '12:00',
         },
@@ -1011,6 +1047,7 @@ describe('validateField', () => {
             min: '4',
           },
         },
+        new Set(),
         {
           test: '1',
         },
@@ -1036,6 +1073,7 @@ describe('validateField', () => {
             max: '2',
           },
         },
+        new Set(),
         {
           test: '4',
         },
@@ -1065,6 +1103,7 @@ describe('validateField', () => {
             max: '2019-1-12',
           },
         },
+        new Set(),
         {
           test: '2019-2-12',
         },
@@ -1099,6 +1138,7 @@ describe('validateField', () => {
             maxLength: 12,
           },
         },
+        new Set(),
         {
           test: 'This is a long text input',
         },
@@ -1133,6 +1173,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: 'This is a long text input',
         },
@@ -1167,6 +1208,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: 'This is a long text input',
         },
@@ -1200,6 +1242,7 @@ describe('validateField', () => {
             minLength: 200,
           },
         },
+        new Set(),
         {
           test: 'This is a long text input',
         },
@@ -1234,6 +1277,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: 'This is a long text input',
         },
@@ -1268,6 +1312,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: 'This is a long text input',
         },
@@ -1304,6 +1349,7 @@ describe('validateField', () => {
             pattern: emailRegex,
           },
         },
+        new Set(),
         {
           test: 'This is a long text input',
         },
@@ -1338,6 +1384,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: 'This is a long text input',
         },
@@ -1372,6 +1419,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: 'This is a long text input',
         },
@@ -1403,6 +1451,7 @@ describe('validateField', () => {
             pattern: emailRegex,
           },
         },
+        new Set(),
         {
           test: 'test@test.com',
         },
@@ -1425,6 +1474,7 @@ describe('validateField', () => {
             pattern: emailRegex,
           },
         },
+        new Set(),
         {
           test: null,
         },
@@ -1449,6 +1499,7 @@ describe('validateField', () => {
             validate: (value) => value.toString().length > 3,
           },
         },
+        new Set(),
         {
           test: 'This is a long text input',
         },
@@ -1471,6 +1522,7 @@ describe('validateField', () => {
             validate: (value) => value.toString().length < 3,
           },
         },
+        new Set(),
         {
           test: 'This is a long text input',
         },
@@ -1505,6 +1557,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: 'This is a long text input',
         },
@@ -1545,6 +1598,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: 'This is a long text input!',
         },
@@ -1579,6 +1633,7 @@ describe('validateField', () => {
             refs: [{ type: 'data' } as HTMLInputElement],
           },
         },
+        new Set(),
         {
           test: 'This is a long text input!',
         },
@@ -1613,6 +1668,7 @@ describe('validateField', () => {
             ],
           },
         },
+        new Set(),
         {
           test: 'This is a long text input!',
         },
@@ -1643,6 +1699,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: 'This is a long text input',
         },
@@ -1680,6 +1737,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: 'This is a long text input',
         },
@@ -1712,6 +1770,7 @@ describe('validateField', () => {
             validate: (value) => value.toString().length < 3 || 'bill',
           },
         },
+        new Set(),
         {
           test: 'This is a long text input',
         },
@@ -1742,6 +1801,7 @@ describe('validateField', () => {
             validate: (value) => value.toString().length < 3 || 'bill',
           },
         },
+        new Set(),
         {
           test: 'This is a long text input',
         },
@@ -1774,6 +1834,7 @@ describe('validateField', () => {
             validate: () => undefined,
           },
         },
+        new Set(),
         {
           test: 'This is a long text input',
         },
@@ -1794,11 +1855,10 @@ describe('validateField', () => {
               name: 'test',
             },
             value: 'This is a long text input',
-            // @ts-expect-error
-            validate: 'validate',
           },
         },
-        'This is a long text input',
+        new Set(),
+        { test: 'This is a long text input' },
         false,
       ),
     ).toEqual({});
@@ -1823,6 +1883,7 @@ describe('validateField', () => {
             validate: (value) => value === 'test',
           },
         },
+        new Set(),
         {
           test: '',
         },
@@ -1857,6 +1918,7 @@ describe('validateField', () => {
             validate: (value) => value === 'test',
           },
         },
+        new Set(),
         {
           test: '123',
         },
@@ -1899,6 +1961,7 @@ describe('validateField', () => {
             validate: (value) => value === 'test',
           },
         },
+        new Set(),
         {
           test: 'a',
         },
@@ -1933,6 +1996,7 @@ describe('validateField', () => {
             validate: (value) => value === 'test',
           },
         },
+        new Set(),
         {
           test: 'a',
         },
@@ -1982,6 +2046,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: '',
         },
@@ -2028,6 +2093,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: 'bil',
         },
@@ -2075,6 +2141,7 @@ describe('validateField', () => {
             },
           },
         },
+        new Set(),
         {
           test: 'bil',
         },
@@ -2119,6 +2186,7 @@ describe('validateField', () => {
             mount: true,
           },
         },
+        new Set(),
         {
           test: '',
         },
@@ -2149,6 +2217,7 @@ describe('validateField', () => {
             mount: true,
           },
         },
+        new Set(),
         {
           test: '',
         },
@@ -2179,6 +2248,7 @@ describe('validateField', () => {
             mount: true,
           },
         },
+        new Set(),
         {
           test: 'test',
         },
@@ -2205,6 +2275,7 @@ describe('validateField', () => {
               disabled: true,
             },
           },
+          new Set(),
           {
             test: '',
           },
@@ -2229,6 +2300,7 @@ describe('validateField', () => {
             mount: true,
           },
         },
+        new Set(),
         {
           test: undefined,
         },
@@ -2261,6 +2333,7 @@ describe('validateField', () => {
             mount: true,
           },
         },
+        new Set(),
         [],
         false,
         false,
@@ -2291,6 +2364,7 @@ describe('validateField', () => {
             mount: true,
           },
         },
+        new Set(),
         {
           test: null,
         },
@@ -2323,6 +2397,7 @@ describe('validateField', () => {
             mount: true,
           },
         },
+        new Set(),
         {
           test: [{}],
         },

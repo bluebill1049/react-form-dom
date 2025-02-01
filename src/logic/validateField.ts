@@ -4,6 +4,7 @@ import {
   FieldError,
   FieldValues,
   InternalFieldErrors,
+  InternalNameSet,
   MaxType,
   Message,
   MinType,
@@ -32,6 +33,7 @@ import getValueAndMessage from './getValueAndMessage';
 
 export default async <T extends FieldValues>(
   field: Field,
+  disabledFieldNames: InternalNameSet,
   formValues: T,
   validateAllFieldCriteria: boolean,
   shouldUseNativeValidation?: boolean,
@@ -50,10 +52,9 @@ export default async <T extends FieldValues>(
     name,
     valueAsNumber,
     mount,
-    disabled,
   } = field._f;
   const inputValue: NativeFieldValue = get(formValues, name);
-  if (!mount || disabled) {
+  if (!mount || disabledFieldNames.has(name)) {
     return {};
   }
   const inputRef: HTMLInputElement = refs ? refs[0] : (ref as HTMLInputElement);

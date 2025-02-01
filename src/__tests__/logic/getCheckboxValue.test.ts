@@ -15,7 +15,7 @@ describe('getCheckboxValue', () => {
           name: 'bill',
           checked: true,
           value: '3',
-          // @ts-expect-error
+          // @ts-expect-error this is a mock for html input
           attributes: { value: '3' },
         },
       ]),
@@ -24,7 +24,7 @@ describe('getCheckboxValue', () => {
 
   it('should return true if single checkbox is checked and has no value', () => {
     expect(
-      // @ts-expect-error
+      // @ts-expect-error this is a mock for html input
       getCheckboxValue([{ name: 'bill', checked: true, attributes: {} }]),
     ).toEqual({ value: true, isValid: true });
   });
@@ -36,7 +36,7 @@ describe('getCheckboxValue', () => {
           name: 'bill',
           checked: true,
           value: '',
-          // @ts-expect-error
+          // @ts-expect-error this is a mock for html input
           attributes: { value: 'test' },
         },
       ]),
@@ -46,7 +46,7 @@ describe('getCheckboxValue', () => {
         {
           name: 'bill',
           checked: true,
-          // @ts-expect-error
+          // @ts-expect-error this is a mock for html input
           attributes: { value: 'test' },
         },
       ]),
@@ -59,7 +59,7 @@ describe('getCheckboxValue', () => {
         {
           name: 'bill',
           checked: false,
-          // @ts-expect-error
+          // @ts-expect-error this is a mock for html input
           attributes: {},
         },
       ]),
@@ -73,14 +73,14 @@ describe('getCheckboxValue', () => {
           name: 'bill',
           checked: true,
           value: '2',
-          // @ts-expect-error
+          // @ts-expect-error this is a mock for html input
           attributes: { value: '2' },
         },
         {
           name: 'bill',
           checked: true,
           value: '3',
-          // @ts-expect-error
+          // @ts-expect-error this is a mock for html input
           attributes: { value: '3' },
         },
       ]),
@@ -94,21 +94,21 @@ describe('getCheckboxValue', () => {
           name: 'bill',
           checked: false,
           value: '2',
-          // @ts-expect-error
+          // @ts-expect-error this is a mock for html input
           attributes: { value: '2' },
         },
         {
           name: 'bill',
           checked: true,
           value: '3',
-          // @ts-expect-error
+          // @ts-expect-error this is a mock for html input
           attributes: { value: '3' },
         },
         {
           name: 'bill',
           checked: false,
           value: '4',
-          // @ts-expect-error
+          // @ts-expect-error this is a mock for html input
           attributes: { value: '4' },
         },
       ]),
@@ -122,14 +122,14 @@ describe('getCheckboxValue', () => {
           name: 'bill',
           checked: false,
           value: '2',
-          // @ts-expect-error
+          // @ts-expect-error this is a mock for html input
           attributes: { value: '2' },
         },
         {
           name: 'bill',
           checked: false,
           value: '3',
-          // @ts-expect-error
+          // @ts-expect-error this is a mock for html input
           attributes: { value: '3' },
         },
       ]),
@@ -139,13 +139,13 @@ describe('getCheckboxValue', () => {
   it('should not return error when check box ref is undefined', () => {
     expect(
       getCheckboxValue([
-        // @ts-expect-error
+        // @ts-expect-error this is a mock for html input
         undefined,
         {
           name: 'bill',
           checked: false,
           value: '2',
-          // @ts-expect-error
+          // @ts-expect-error this is a mock for html input
           attributes: { value: '2' },
         },
       ]),
@@ -160,14 +160,14 @@ describe('getCheckboxValue', () => {
           checked: true,
           value: '2',
           disabled: true,
-          // @ts-expect-error
+          // @ts-expect-error this is a mock for html input
           attributes: { value: '2' },
         },
         {
           name: 'bill',
           checked: true,
           value: '3',
-          // @ts-expect-error
+          // @ts-expect-error this is a mock for html input
           attributes: { value: '3' },
         },
       ]),
@@ -183,7 +183,7 @@ describe('getCheckboxValue', () => {
           checked: true,
           value: '2',
           disabled: true,
-          // @ts-expect-error
+          // @ts-expect-error this is a mock for html input
           attributes: { value: '2' },
         },
         {
@@ -191,7 +191,7 @@ describe('getCheckboxValue', () => {
           disabled: true,
           checked: true,
           value: '3',
-          // @ts-expect-error
+          // @ts-expect-error this is a mock for html input
           attributes: { value: '3' },
         },
       ]),
@@ -207,7 +207,7 @@ describe('getCheckboxValue', () => {
           checked: true,
           value: '2',
           disabled: true,
-          // @ts-expect-error
+          // @ts-expect-error this is a mock for html input
           attributes: { value: '2' },
         },
       ]),

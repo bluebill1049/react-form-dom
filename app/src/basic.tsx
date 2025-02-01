@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useForm, NestedValue, ValidationMode } from 'react-hook-form';
+import { useForm, ValidationMode } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 
 let renderCounter = 0;
@@ -25,7 +25,7 @@ const Basic: React.FC = () => {
     pattern: string;
     radio: string;
     checkbox: string;
-    checkboxArray: NestedValue<string[]>;
+    checkboxArray: string[];
     multiple: string;
     validate: string;
     nestItem: {
@@ -47,7 +47,7 @@ const Basic: React.FC = () => {
       }, onInvalid)}
     >
       <input
-        placeholder="nest.nest1"
+        placeholder="nestItem.nest1"
         {...register('nestItem.nest1', { required: true })}
       />
       {errors.nestItem?.nest1 && <p>nest 1 error</p>}
