@@ -232,4 +232,51 @@ describe('errorsLookup', () => {
       name: 'test.testXYZ',
     });
   });
+
+  it('should find the nearest root error', () => {
+    const errors = {
+      test: {
+        0: {
+          root: {
+            type: 'root',
+            message: 'higher-root',
+          },
+          nested: {
+            root: {
+              type: 'root',
+              message: 'correct-root',
+            },
+            0: {
+              deepNested: {
+                type: 'deepNested',
+                message: 'error',
+              },
+            },
+          },
+        },
+      },
+    };
+
+    expect(
+      schemaErrorLookup<{ test: { nested: { deepNested: string }[] }[] }>(
+        errors,
+        {},
+        'test.0.nested.1',
+      ),
+    ).toEqual({
+      error: { message: 'correct-root', type: 'root' },
+      name: 'test.0.nested.root',
+    });
+
+    expect(
+      schemaErrorLookup<{ test: { nested: { deepNested: string }[] }[] }>(
+        errors,
+        {},
+        'test.0.nested.0.deepNested',
+      ),
+    ).toEqual({
+      error: { message: 'error', type: 'deepNested' },
+      name: 'test.0.nested.0.deepNested',
+    });
+  });
 });
