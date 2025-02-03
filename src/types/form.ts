@@ -805,6 +805,7 @@ export type Control<
     mount: boolean;
     action: boolean;
     watch: boolean;
+    isLoadingValues: boolean;
   };
   _reset: UseFormReset<TFieldValues>;
   _options: UseFormProps<TFieldValues, TContext>;

@@ -2075,6 +2075,55 @@ describe('useForm', () => {
     });
   });
 
+  it('should update async default values for controlled components only once in strict mode', async () => {
+    let calls = 0;
+
+    const formProps = {
+      defaultValues: async () => {
+        const test = calls == 0 ? 'test' : 'other';
+        const timeout = calls == 0 ? 100 : 50;
+        calls++;
+
+        await sleep(timeout);
+
+        return {
+          test,
+        };
+      },
+    };
+
+    const App = () => {
+      const { control } = useForm<{
+        test: string;
+      }>(formProps);
+
+      return (
+        <form>
+          <Controller
+            control={control}
+            render={({ field }) => <input {...field} />}
+            defaultValue=""
+            name={'test'}
+          />
+        </form>
+      );
+    };
+
+    render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>,
+    );
+
+    await waitFor(() => {
+      expect((screen.getByRole('textbox') as HTMLInputElement).value).toEqual(
+        'test',
+      );
+    });
+
+    expect(calls).toEqual(1);
+  });
+
   it('should update async form values', async () => {
     type FormValues = {
       test: string;
