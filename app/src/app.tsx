@@ -23,6 +23,7 @@ import FormStateWithSchema from './formStateWithSchema';
 import SetValueWithSchema from './setValueWithSchema';
 import SetValueWithTrigger from './setValueWithTrigger';
 import IsValid from './isValid';
+import IsValidBreaksValidation from './isValidBreaksValidation';
 import Controller from './controller';
 import UseFieldArray from './useFieldArray';
 import UseFieldArrayNested from './useFieldArrayNested';
@@ -96,6 +97,10 @@ const App = () => {
           element={<FormStateWithSchema />}
         />
         <Route path="/isValid/:mode/:defaultValues" element={<IsValid />} />
+        <Route
+          path="/isValidBreaksValidation"
+          element={<IsValidBreaksValidation />}
+        />
         <Route path="/default-values" element={<DefaultValues />} />
         <Route path="/default-values-async" element={<DefaultValuesAsync />} />
         <Route path="/trigger-validation" element={<TriggerValidation />} />
