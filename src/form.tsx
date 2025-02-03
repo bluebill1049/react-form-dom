@@ -4,7 +4,7 @@ import { flatten } from './utils/flatten';
 import { FieldValues, FormProps } from './types';
 import { useFormContext } from './useFormContext';
 
-const POST_REQUEST = 'post';
+const POST_REQUEST = 'POST';
 
 /**
  * Form component to manage submission.
