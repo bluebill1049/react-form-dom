@@ -51,7 +51,9 @@ import deepEqual from '../utils/deepEqual';
 import get from '../utils/get';
 import isBoolean from '../utils/isBoolean';
 import isCheckBoxInput from '../utils/isCheckBoxInput';
+import isDateInput from '../utils/isDateInput';
 import isDateObject from '../utils/isDateObject';
+import isDateTimeLocalInput from '../utils/isDateTimeLocalInput';
 import isEmptyObject from '../utils/isEmptyObject';
 import isFileInput from '../utils/isFileInput';
 import isFunction from '../utils/isFunction';
@@ -624,6 +626,28 @@ export function createFormControl<
           }
         } else if (isFileInput(fieldReference.ref)) {
           fieldReference.ref.value = '';
+        } else if (isDateObject(fieldValue)) {
+          if (isDateInput(fieldReference.ref)) {
+            const dateValue = fieldValue as Date;
+            fieldReference.ref.value = `${dateValue.getFullYear()}-${(
+              dateValue.getMonth() + 1
+            )
+              .toString()
+              .padStart(2, '0')}-${dateValue.getDate()}`;
+          } else if (isDateTimeLocalInput(fieldReference.ref)) {
+            const dateValue = fieldValue as Date;
+            fieldReference.ref.value = `${dateValue.getFullYear()}-${(
+              dateValue.getMonth() + 1
+            )
+              .toString()
+              .padStart(2, '0')}-${dateValue.getDate()}T${dateValue
+              .getHours()
+              .toString()
+              .padStart(2, '0')}:${dateValue
+              .getMinutes()
+              .toString()
+              .padStart(2, '0')}`;
+          }
         } else {
           fieldReference.ref.value = fieldValue;
 
