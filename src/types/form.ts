@@ -81,10 +81,7 @@ export type TriggerConfig = Partial<{
   shouldFocus: boolean;
 }>;
 
-export type ChangeHandler = (event: {
-  target: any;
-  type?: any;
-}) => Promise<void | boolean>;
+export type ChangeHandler = (event: unknown) => Promise<void | boolean>;
 
 export type DelayCallback = (wait: number) => void;
 
