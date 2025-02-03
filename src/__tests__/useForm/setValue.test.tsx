@@ -1465,4 +1465,45 @@ describe('setValue', () => {
     expect(screen.getByText('dirty')).toBeVisible();
     expect(screen.getByText('touched')).toBeVisible();
   });
+
+  it('should handle integer value as defaultValue', () => {
+    function App() {
+      const { register } = useForm({
+        defaultValues: { myField: 12 },
+      });
+
+      return (
+        <form>
+          <input
+            data-testid="0"
+            type="radio"
+            {...register('myField')}
+            value={4}
+          />
+          <input
+            data-testid="1"
+            type="radio"
+            {...register('myField')}
+            value={12}
+          />
+          <input
+            data-testid="2"
+            type="radio"
+            {...register('myField')}
+            value={32}
+          />
+        </form>
+      );
+    }
+
+    render(<App />);
+
+    expect((screen.getByTestId('0') as HTMLInputElement).checked).toEqual(
+      false,
+    );
+    expect((screen.getByTestId('1') as HTMLInputElement).checked).toEqual(true);
+    expect((screen.getByTestId('2') as HTMLInputElement).checked).toEqual(
+      false,
+    );
+  });
 });

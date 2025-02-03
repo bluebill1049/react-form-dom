@@ -617,9 +617,30 @@ export function createFormControl<
               : fieldReference.refs[0] &&
                 (fieldReference.refs[0].checked = !!fieldValue);
           } else {
+            let stringFieldValue: string;
+            switch (typeof fieldValue) {
+              case 'string':
+                stringFieldValue = fieldValue;
+                break;
+              case 'bigint':
+              case 'boolean':
+              case 'number':
+              case 'symbol':
+                stringFieldValue = fieldValue.toString();
+                break;
+              case 'object':
+                stringFieldValue = JSON.stringify(fieldValue);
+                break;
+              case 'undefined':
+                stringFieldValue = '';
+                break;
+              case 'function':
+                throw new Error('Cannot set field value to a Function');
+            }
+
             fieldReference.refs.forEach(
               (radioRef: HTMLInputElement) =>
-                (radioRef.checked = radioRef.value === fieldValue),
+                (radioRef.checked = radioRef.value === stringFieldValue),
             );
           }
         } else if (isFileInput(fieldReference.ref)) {
